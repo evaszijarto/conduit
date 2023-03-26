@@ -21,9 +21,13 @@ URL = 'http://localhost:1667/#/'
 browser.get(URL)
 browser.maximize_window()
 
+
 def cookies_accept():
-    btn_cookies_accept = browser.find_element(By.XPATH, '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
+    btn_cookies_accept = browser.find_element(By.XPATH,
+                                              '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
     btn_cookies_accept.click()
+
+
 def sign_up(user_number):
     btn_menu_sign_up = browser.find_element(By.XPATH, '//a[@href="#/register"]')
     btn_menu_sign_up.click()
@@ -31,11 +35,12 @@ def sign_up(user_number):
     input_username.send_keys(user_data['username'] + str(user_number))
     user.append(user_data['username'] + str(user_number))
     input_email = browser.find_element(By.XPATH, '//input[@placeholder="Email"]')
-    input_email.send_keys(user_data['username']+str(user_number)+user_data['email'])
+    input_email.send_keys(user_data['username'] + str(user_number) + user_data['email'])
     input_password = browser.find_element(By.XPATH, '//input[@placeholder="Password"]')
     input_password.send_keys(user_data['password'])
     btn_func_sign_up = browser.find_element(By.XPATH, '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
     # btn_func_sign_up.click()
+
 
 cookies_accept()
 sign_up(1)
