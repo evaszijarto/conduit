@@ -1,5 +1,5 @@
 from data_conduit import user_data, user
-
+import time
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
@@ -10,21 +10,42 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from datetime import datetime, date, time, timezone
+from datetime import datetime, date, timezone
 
-service = Service(executable_path=ChromeDriverManager().install())
-options = Options()
-options.add_experimental_option("detach", True)
-browser = webdriver.Chrome(service=service, options=options)
-
-URL = 'http://localhost:1667/#/'
+# service = Service(executable_path=ChromeDriverManager().install())
+# options = Options()
+# options.add_experimental_option("detach", True)
+# options.add_argument('--headless')
+# options.add_argument('--no-sandbox')
+# options.add_argument('--disable-dev-shm-usage')
+# browser = webdriver.Chrome(service=service, options=options)
+#
+# URL = 'http://localhost:1667/#/'
 # browser.get(URL)
 # browser.maximize_window()
-#
-#
+
+def get_preconfigured_chrome_driver() -> webdriver.Chrome:
+    service = Service(executable_path=ChromeDriverManager().install())
+    options = Options()
+    options.add_experimental_option('detach', True)
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    browser = get_preconfigured_chrome_driver()
+    return webdriver.Chrome(service=service, options=options)
+
+if __name__ == '__main__':
+
+    browser = get_preconfigured_chrome_driver()
+    URL = 'http://localhost:1667/#/'
+    browser.get(URL)
+    browser.maximize_window()
+
+
 # def cookies_accept():
-#     btn_cookies_accept = browser.find_element(By.XPATH, '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
-#     btn_cookies_accept.click()
+#     time.sleep(2)
+    # btn_cookies_accept = browser.find_element(By.XPATH, '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
+    # btn_cookies_accept.click()
 
 #
 # def sign_up():
@@ -41,7 +62,8 @@ URL = 'http://localhost:1667/#/'
 #     # btn_func_sign_up.click()
 #
 #
-# # cookies_accept()
+# cookies_accept()
 # # sign_up(1)
 #
-# # browser.quit()
+# browser.quit()
+#

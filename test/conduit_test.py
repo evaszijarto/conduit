@@ -11,27 +11,34 @@ from selenium.webdriver.support.wait import WebDriverWait
 from datetime import datetime, date, time, timezone
 
 import time
-# from module_conduit import cookies_accept
+from module_conduit import get_preconfigured_chrome_driver
 from data_conduit import user_data, user
 
 
 class TestConduit(object):
 
     def setup_method(self):
-        service = Service(executable_path=ChromeDriverManager().install())
-        options = Options()
-        options.add_experimental_option("detach", True)
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
-        self.browser = webdriver.Chrome(service=service, options=options)
-
-        URL = 'http://localhost:1667/#/'
-        self.browser.get(URL)
-        self.browser.maximize_window()
+        # service = Service(executable_path=ChromeDriverManager().install())
+        # options = Options()
+        # options.add_experimental_option("detach", True)
+        # options.add_argument('--headless')
+        # options.add_argument('--no-sandbox')
+        # options.add_argument('--disable-dev-shm-usage')
+        # self.browser = webdriver.Chrome(service=service, options=options)
+        #
+        # URL = 'http://localhost:1667/#/'
+        # self.browser.get(URL)
+        # self.browser.maximize_window()
+        self.browser = get_preconfigured_chrome_driver()
+        self.browser()
 
     def teardown_method(self):
         self.browser.quit()
+
+    def test_open(self):
+        page_name = self.browser.find_element(By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
+        assert page_name.is_displayed()
+        assert page_name.text == "conduit"
 
     def test_cookies_accept(self):
         cookie_policy_panel = self.browser.find_element(By.ID, 'cookie-policy-panel')
@@ -39,7 +46,8 @@ class TestConduit(object):
         assert cookie_policy_panel.is_enabled()
         assert btn_cookies_accept.is_enabled()
         btn_cookies_accept.click()
-        # assert not btn_cookies_accept.is_displayed()
+        # assert cookie_policy_panel.get_attribute('class') == ""
+        # assert btn_cookies_accept.get_attribute('class') == ""
 
     def test_sign_up(self):
         # cookies_accept()
