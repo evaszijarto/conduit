@@ -1,6 +1,6 @@
 user_data = {
-    'username': 'conduit_test_user',
-    'email': '@conduit_test_user',
+    'username': 'conduit_test_user_01',
+    'email': '@conduit_test_user_01',
     'password': 'Password123'
 }
 

@@ -11,12 +11,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from datetime import datetime, date, time, timezone
 
 import time
-from module_conduit import cookies_accept
+# from module_conduit import cookies_accept
 from data_conduit import user_data, user
 
 
 class TestConduit(object):
-    test_counter = 1
 
     def setup_method(self):
         service = Service(executable_path=ChromeDriverManager().install())
@@ -34,32 +33,28 @@ class TestConduit(object):
     def test_cookies_accept(self):
         cookie_policy_panel = self.browser.find_element(By.ID, 'cookie-policy-panel')
         btn_cookies_accept = self.browser.find_element(By.XPATH, '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
+        assert cookie_policy_panel.is_enabled()
+        assert btn_cookies_accept.is_enabled()
         btn_cookies_accept.click()
-        assert not btn_cookies_accept.is_displayed()
-        # assert not cookie_policy_panel.is_enabled()
+        # assert not btn_cookies_accept.is_displayed()
 
     def test_sign_up(self):
-        cookies_accept()
+        # cookies_accept()
 
         btn_menu_sign_up = self.browser.find_element(By.XPATH, '//a[@href="#/register"]')
         btn_menu_sign_up.click()
         input_username = self.browser.find_element(By.XPATH, '//input[@placeholder="Username"]')
-        input_username.send_keys(user_data['username'] + str(self.test_counter))
-        user.append(user_data['username'] + str(self.test_counter))
+        input_username.send_keys(user_data['username'])
+        user.append(user_data['username'])
         input_email = self.browser.find_element(By.XPATH, '//input[@placeholder="Email"]')
-        input_email.send_keys(user_data['username'] + str(self.test_counter) + user_data['email'])
+        input_email.send_keys(user_data['username'] + user_data['email'])
         input_password = self.browser.find_element(By.XPATH, '//input[@placeholder="Password"]')
         input_password.send_keys(user_data['password'])
         btn_func_sign_up = self.browser.find_element(By.XPATH,
                                                           '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
-        # self.btn_func_sign_up.click()
         assert btn_func_sign_up.is_displayed()
         assert input_username != ""
         assert input_email != ""
         assert input_password != ''
 
-        time.sleep(2)
-        self.test_counter += 1
-        print()
-        print(self.test_counter)
-        print(user)
+        # self.btn_func_sign_up.click()
