@@ -11,26 +11,23 @@ from selenium.webdriver.support.wait import WebDriverWait
 from datetime import datetime, date, time, timezone
 
 import time
-from module_conduit import get_preconfigured_chrome_driver
 from data_conduit import user_data, user
 
 
 class TestConduit(object):
 
     def setup_method(self):
-        # service = Service(executable_path=ChromeDriverManager().install())
-        # options = Options()
-        # options.add_experimental_option("detach", True)
-        # options.add_argument('--headless')
-        # options.add_argument('--no-sandbox')
-        # options.add_argument('--disable-dev-shm-usage')
-        # self.browser = webdriver.Chrome(service=service, options=options)
-        #
-        # URL = 'http://localhost:1667/#/'
-        # self.browser.get(URL)
-        # self.browser.maximize_window()
-        self.browser = get_preconfigured_chrome_driver()
-        self.browser()
+        service = Service(executable_path=ChromeDriverManager().install())
+        options = Options()
+        options.add_experimental_option("detach", True)
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        self.browser = webdriver.Chrome(service=service, options=options)
+
+        URL = 'http://localhost:1667/#/'
+        self.browser.get(URL)
+        self.browser.maximize_window()
 
     def teardown_method(self):
         self.browser.quit()
@@ -50,7 +47,7 @@ class TestConduit(object):
         # assert btn_cookies_accept.get_attribute('class') == ""
 
     def test_sign_up(self):
-        # cookies_accept()
+        self.test_cookies_accept()
 
         btn_menu_sign_up = self.browser.find_element(By.XPATH, '//a[@href="#/register"]')
         btn_menu_sign_up.click()
