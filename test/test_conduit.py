@@ -113,9 +113,9 @@ class TestConduit(object):
         assert input_password.get_attribute('value') == login_user['password']
 
         btn_func_login.click()
-        # time.sleep(3)
-        # btn_menu_logged_in_user = self.browser.find_element(By.XPATH, '//a[@href="#/@conduit_test_user_10/"]')
-        btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/@conduit_test_user_10/"]')))
+        time.sleep(3)
+        btn_menu_logged_in_user = self.browser.find_element(By.XPATH, '//a[@href="#/@conduit_test_user_10/"]')
+        # btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/@conduit_test_user_10/"]')))
         assert btn_menu_logged_in_user.is_displayed()
         assert btn_menu_logged_in_user.is_enabled()
         assert btn_menu_logged_in_user.text == login_user['username']
