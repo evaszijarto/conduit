@@ -1,4 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Mon Apr 03 10:02:13 GMT 2023","Mon Apr 03 10:02:13 GMT 2023","121","test","test_conduit","TestConduit","","","test_open",""
-"passed","Mon Apr 03 10:02:16 GMT 2023","Mon Apr 03 10:02:16 GMT 2023","619","test","test_conduit","TestConduit","","","test_sign_up",""
-"passed","Mon Apr 03 10:02:14 GMT 2023","Mon Apr 03 10:02:14 GMT 2023","113","test","test_conduit","TestConduit","","","test_cookies_accept",""
