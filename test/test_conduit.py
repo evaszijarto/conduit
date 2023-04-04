@@ -138,12 +138,11 @@ class TestConduit(object):
         # independent_login()
         self.test_cookies_accept
         self.test_login
-        btn_menu_log_out = \
-            WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located(('//a[@class="nav-link"]')))[3]
+        time.sleep(5)
+        btn_menu_log_out = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located(('//a[@class="nav-link"]')))[3]
         btn_menu_log_out.click()
         time.sleep(5)
-        page_name = self.browser.find_element(By.XPATH,
-                                              '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
+        page_name = self.browser.find_element(By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
         logo_name = self.browser.find_element(By.XPATH, '//h1[@class="logo-font"]')
         assert page_name.is_displayed()
         assert logo_name.is_displayed()
