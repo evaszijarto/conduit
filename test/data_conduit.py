@@ -11,4 +11,6 @@ login_user = {
 }
 user = []
 
-btns_menu_expected_text = [" New Article", " Settings", f'{login_user["username"]}', " Log out", "Your Feed" ]
+btns_menu_logged_in_expected_text = [" New Article", " Settings", f'{login_user["username"]}', " Log out", "Your Feed"]
+
+btns_menu_logged_out_expected_text = ["HOME", " Sing in", "Sign up", "Global Feed"]
