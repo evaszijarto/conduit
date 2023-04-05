@@ -13,30 +13,17 @@ from datetime import datetime, date, time, timezone
 import time
 from data_conduit import sign_up_user, login_user
 
-# service = Service(executable_path=ChromeDriverManager().install())
-# options = Options()
-# options.add_experimental_option("detach", True)
-# options.add_argument('--headless')
-# options.add_argument('--no-sandbox')
-# options.add_argument('--disable-dev-shm-usage')
-# browser = webdriver.Chrome(service=service, options=options)
-#
-# URL = 'http://localhost:1667/#/'
-# browser.get(URL)
-# browser.maximize_window()
-
-
 def independent_cookies_accept(browser):
     btn_cookies_accept = browser.find_element(By.XPATH, '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
     btn_cookies_accept.click()
 
-def independent_login():
+def independent_login(browser):
     btn_menu_login = browser.find_element(By.XPATH, '//a[@href="#/login"]')
     btn_menu_login.click()
     input_email = browser.find_element(By.XPATH, '//input[@placeholder="Email"]')
-    input_email.send_keys(login_user['username'] + login_user['email'])
+    input_email.send_keys(sign_up_user['username'] + sign_up_user['email'])
     input_password = browser.find_element(By.XPATH, '//input[@placeholder="Password"]')
-    input_password.send_keys(login_user['password'])
+    input_password.send_keys(sign_up_user['password'])
     btn_func_login = browser.find_element(By.XPATH, '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
 
     btn_func_login.click()

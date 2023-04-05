@@ -73,7 +73,7 @@ class TestConduit(object):
     @allure.title('Regisztráció - Helyes adatokkal')
     def test_sign_up(self):
         independent_cookies_accept(self.browser)
-        # self.test_cookies_accept
+
         btn_menu_sign_up = self.browser.find_element(By.XPATH, '//a[@href="#/register"]')
         btn_menu_sign_up.click()
         input_username = self.browser.find_element(By.XPATH, '//input[@placeholder="Username"]')
@@ -107,23 +107,21 @@ class TestConduit(object):
     @allure.title('Bejelentkezés - Helyes adatokkal')
     def test_login(self):
         independent_cookies_accept(self.browser)
-        # self.browser.find_element(By.XPATH, '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]').click()
 
-        # self.test_cookies_accept
         btn_menu_login = self.browser.find_element(By.XPATH, '//a[@href="#/login"]')
         btn_menu_login.click()
         input_email = self.browser.find_element(By.XPATH, '//input[@placeholder="Email"]')
-        input_email.send_keys(login_user['username'] + login_user['email'])
+        input_email.send_keys(sign_up_user['username'] + sign_up_user['email'])
         input_password = self.browser.find_element(By.XPATH, '//input[@placeholder="Password"]')
-        input_password.send_keys(login_user['password'])
+        input_password.send_keys(sign_up_user['password'])
         btn_func_login = self.browser.find_element(By.XPATH,
                                                    '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
 
         assert btn_func_login.is_displayed()
         assert input_email != ""
         assert input_password != ''
-        assert input_email.get_attribute('value') == login_user['username'] + login_user['email']
-        assert input_password.get_attribute('value') == login_user['password']
+        assert input_email.get_attribute('value') == sign_up_user['username'] + sign_up_user['email']
+        assert input_password.get_attribute('value') == sign_up_user['password']
 
         btn_func_login.click()
         time.sleep(5)
@@ -136,7 +134,7 @@ class TestConduit(object):
         # print(len(btn_menu_logged_in_user))
         assert btn_menu_logged_in_user.is_displayed()
         assert btn_menu_logged_in_user.is_enabled()
-        assert btn_menu_logged_in_user.text == login_user['username']
+        assert btn_menu_logged_in_user.text == sign_up_user['username']
         btns_menu_new = self.browser.find_elements(By.XPATH, '//a[@class="nav-link"]')
         n = 0
         for btn in btns_menu_new:
@@ -144,30 +142,25 @@ class TestConduit(object):
             assert btn.text == btns_menu_logged_in_expected_text[n]
             n += 1
 
-    # @allure.id('TC5')
-    # @allure.title('Kijelentkezés - Helyes adatokkal')
-    # def test_log_out(self):
-    #     # independent_cookies_accept()
-    #
-    #     # self.browser.find_element(By.XPATH,'//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]').click()
-    #
-    #     # independent_login()
-    #     # self.test_cookies_accept
-    #     self.test_login()
-    #     time.sleep(5)
-    #     btn_menu_log_out = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
-    #     btn_menu_log_out.click()
-    #     time.sleep(5)
-    #     page_name = self.browser.find_element(By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
-    #     logo_name = self.browser.find_element(By.XPATH, '//h1[@class="logo-font"]')
-    #     assert page_name.is_displayed()
-    #     assert logo_name.is_displayed()
-    #     assert page_name.text == "conduit"
-    #     assert logo_name.text == "conduit"
-    #
-    #     btns_menu_logged_out = self.browser.find_elements(By.XPATH, '//li[@class="nav-item"]')
-    #     n = 0
-    #     for btn in btns_menu_logged_out:
-    #         print(btn.text)
-    #         assert btn.text == btns_menu_logged_out_expected_text[n]
-    #         n += 1
+    @allure.id('TC5')
+    @allure.title('Kijelentkezés - Helyes adatokkal')
+    def test_log_out(self):
+        independent_cookies_accept(self.browser)
+        independent_login(self.browser)
+        time.sleep(5)
+        btn_menu_log_out = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+        btn_menu_log_out.click()
+        time.sleep(5)
+        page_name = self.browser.find_element(By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
+        logo_name = self.browser.find_element(By.XPATH, '//h1[@class="logo-font"]')
+        assert page_name.is_displayed()
+        assert logo_name.is_displayed()
+        assert page_name.text == "conduit"
+        assert logo_name.text == "conduit"
+
+        btns_menu_logged_out = self.browser.find_elements(By.XPATH, '//li[@class="nav-item"]')
+        n = 0
+        for btn in btns_menu_logged_out:
+            print(btn.text)
+            assert btn.text == btns_menu_logged_out_expected_text[n]
+            n += 1
