@@ -27,5 +27,5 @@ def independent_login(browser):
     btn_func_login = browser.find_element(By.XPATH, '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
 
     btn_func_login.click()
-    time.sleep(5)
+    # time.sleep(5)
 

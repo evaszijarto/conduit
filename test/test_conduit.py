@@ -33,8 +33,8 @@ class TestConduit(object):
         self.browser.maximize_window()
 
     def teardown_method(self):
-        pass
-        # self.browser.quit()
+        # pass
+        self.browser.quit()
 
     @allure.id('TC1')
     @allure.title('Oldal megnyitása')
@@ -56,18 +56,11 @@ class TestConduit(object):
         assert cookie_policy_panel.is_enabled()
         assert btn_cookies_accept.is_enabled()
         btn_cookies_accept.click()
-        # time.sleep(2)
-        # assert cookie_policy_panel.get_attribute("value") == ""
-        # assert btn_cookies_accept.get_attribute('value') == ''
 
-        # try:
-        #     cookie_policy_panel = self.browser.find_element(By.ID, 'cookie-policy-panel')
-        # except Exception as e_info:
-        #     assert True
-
-        # with pytest.raises(Exception) as e_info:
-        #     pass
-
+        try:
+            cookie_policy_panel = self.browser.find_element(By.ID, 'cookie-policy-panel')
+        except Exception as e_info:
+            assert True
 
     @allure.id('TC3')
     @allure.title('Regisztráció - Helyes adatokkal')
@@ -94,9 +87,9 @@ class TestConduit(object):
         assert input_password.get_attribute('value') == sign_up_user['password']
 
         btn_func_sign_up.click()
-        time.sleep(3)
-        message_ok = self.browser.find_element(By.XPATH, '//div[@class="swal-text"]')
-        # message_ok = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//div[@class="swal-text"]')))
+        # time.sleep(3)
+        # message_ok = self.browser.find_element(By.XPATH, '//div[@class="swal-text"]')
+        message_ok = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//div[@class="swal-text"]')))
         assert message_ok.text == 'Your registration was successful!'
         # print(message_ok.text)
         btn_ok_sign_up = self.browser.find_element(By.XPATH, '//button[@class="swal-button swal-button--confirm"]')
@@ -124,7 +117,7 @@ class TestConduit(object):
         assert input_password.get_attribute('value') == sign_up_user['password']
 
         btn_func_login.click()
-        time.sleep(5)
+        # time.sleep(5)
         # btn_menu_logged_in_user = self.browser.find_element(By.XPATH, '//a[@href="#/@conduit_test_user_10/"]')
         # btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/@conduit_test_user_10/"]')))
         btn_menu_logged_in_user = \
@@ -147,11 +140,14 @@ class TestConduit(object):
     def test_log_out(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
-        time.sleep(5)
-        btn_menu_log_out = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+        # time.sleep(5)
+        btn_menu_log_out = \
+        WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
+            3]
         btn_menu_log_out.click()
         time.sleep(5)
-        page_name = self.browser.find_element(By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
+        page_name = self.browser.find_element(By.XPATH,
+                                              '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
         logo_name = self.browser.find_element(By.XPATH, '//h1[@class="logo-font"]')
         assert page_name.is_displayed()
         assert logo_name.is_displayed()
