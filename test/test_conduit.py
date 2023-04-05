@@ -87,7 +87,7 @@ class TestConduit(object):
         assert input_password.get_attribute('value') == sign_up_user['password']
 
         btn_func_sign_up.click()
-        # time.sleep(3)
+        time.sleep(3)
         # message_ok = self.browser.find_element(By.XPATH, '//div[@class="swal-text"]')
         message_ok = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//div[@class="swal-text"]')))
         assert message_ok.text == 'Your registration was successful!'
