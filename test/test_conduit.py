@@ -117,7 +117,7 @@ class TestConduit(object):
         assert input_password.get_attribute('value') == sign_up_user['password']
 
         btn_func_login.click()
-        # time.sleep(5)
+        time.sleep(5)
         # btn_menu_logged_in_user = self.browser.find_element(By.XPATH, '//a[@href="#/@conduit_test_user_10/"]')
         # btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/@conduit_test_user_10/"]')))
         btn_menu_logged_in_user = \
@@ -140,7 +140,7 @@ class TestConduit(object):
     def test_log_out(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
-        # time.sleep(5)
+        time.sleep(5)
         btn_menu_log_out = \
         WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
             3]
