@@ -258,14 +258,15 @@ class TestConduit(object):
 
         # print(input_article_titles)
 
-        btn_menu_logged_in_user = \
-        WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
-            3]
+        # btn_menu_logged_in_user = \
+        # WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
+        #     3]
+        time.sleep(5)
+        btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//a[@href="#/@{sign_up_user["username"]}"]')))
         btn_menu_logged_in_user.click()
         time.sleep(5)
 
-        actual_article_elements = WebDriverWait(self.browser, 5).until(
-            EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
+        actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
         assert len(actual_article_elements) == self.article_counter
 
         for article in actual_article_elements:
