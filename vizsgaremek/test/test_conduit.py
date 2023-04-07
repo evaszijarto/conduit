@@ -216,7 +216,7 @@ class TestConduit(object):
         independent_login(self.browser)
 
         input_article_titles = []
-        with open('./datas_for_conduit.csv', 'r') as datas:
+        with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as datas:
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
                 btn_new_articel = WebDriverWait(self.browser, 5).until(
@@ -258,12 +258,12 @@ class TestConduit(object):
 
         # print(input_article_titles)
 
-        # btn_menu_logged_in_user = \
-        # WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
-        #     3]
         time.sleep(5)
-        btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//a[@href="#/@{sign_up_user["username"]}"]')))
-        btn_menu_logged_in_user.click()
+        # btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+        # btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//a[@href="#/@{sign_up_user["username"]}"]')))
+        # btn_menu_logged_in_user.click()
+        btn_article_author = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@class="author"]')))
+        btn_article_author.click()
         time.sleep(5)
 
         actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
