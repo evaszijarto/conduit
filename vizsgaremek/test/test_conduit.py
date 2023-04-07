@@ -207,8 +207,8 @@ class TestConduit(object):
         assert actual_article_tags.text == new_article_data["article_tags"]
         assert btn_post_comment.is_enabled()
 
-        self.article_counter += 1
-        print(self.article_counter)
+        TestConduit.article_counter += 1
+        print(TestConduit.article_counter)
 
     @allure.id('TC7')
     @allure.title('Ismételt és sorozatos adatbevitel adatforrásból - Helyes adatokkal')
@@ -243,8 +243,8 @@ class TestConduit(object):
                 btn_publish.click()
                 time.sleep(5)
 
-                self.article_counter += 1
-                print(self.article_counter)
+                TestConduit.article_counter += 1
+                print(TestConduit.article_counter)
 
                 actual_article_title = WebDriverWait(self.browser, 5).until(
                     EC.presence_of_element_located((By.TAG_NAME, 'h1')))
@@ -270,7 +270,7 @@ class TestConduit(object):
         time.sleep(5)
 
         actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
-        assert len(actual_article_elements) == self.article_counter
+        assert len(actual_article_elements) == TestConduit.article_counter
 
         for article in actual_article_elements:
             assert article.text in input_article_titles
