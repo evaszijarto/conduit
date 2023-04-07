@@ -216,7 +216,7 @@ class TestConduit(object):
         independent_login(self.browser)
 
         input_article_titles = []
-        with open('/vizsgaremek/test/datas_for_conduit.csv', 'r') as datas:
+        with open('./datas_for_conduit.csv', 'r') as datas:
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
                 btn_new_articel = WebDriverWait(self.browser, 5).until(
