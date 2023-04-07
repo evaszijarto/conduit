@@ -21,3 +21,7 @@ new_article_data = {
         "article": "Aenean ac dapibus libero. Vestibulum molestie et est nec accumsan. Fusce venenatis nulla sit amet imperdiet semper. Aliquam non vulputate.",
         "article_tags": "tag1 tag2"
 }
+
+update_article_data = {
+    "article_about": "Update article about field."
+}

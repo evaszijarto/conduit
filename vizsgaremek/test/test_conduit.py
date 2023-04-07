@@ -15,7 +15,7 @@ import csv
 
 import time
 from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
-    new_article_data
+    new_article_data, update_article_data
 from tmodule_conduit import independent_cookies_accept, independent_login
 
 
@@ -36,8 +36,8 @@ class TestConduit(object):
         self.browser.maximize_window()
 
     def teardown_method(self):
-        pass
-        # self.browser.quit()
+        # pass # pycharm futtatáshoz kell
+        self.browser.quit()
 
     @allure.id('TC1')
     @allure.title('Oldal megnyitása')
@@ -208,7 +208,7 @@ class TestConduit(object):
         assert btn_post_comment.is_enabled()
 
         TestConduit.article_counter += 1
-        print(TestConduit.article_counter)
+        # print(TestConduit.article_counter)
 
     @allure.id('TC7')
     @allure.title('Ismételt és sorozatos adatbevitel adatforrásból - Helyes adatokkal')
@@ -218,8 +218,8 @@ class TestConduit(object):
 
         input_article_titles = []
         print(self.article_counter)
-        with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as datas:
-        # with open('datas_for_conduit.csv', 'r') as datas:
+        with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as datas: # github actionhöz kell
+        # with open('datas_for_conduit.csv', 'r') as datas: # pycharm futáshoz kell
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
                 btn_new_articel = WebDriverWait(self.browser, 5).until(
@@ -245,7 +245,7 @@ class TestConduit(object):
                 time.sleep(5)
 
                 TestConduit.article_counter += 1
-                print(TestConduit.article_counter)
+                # print(TestConduit.article_counter)
 
                 actual_article_title = WebDriverWait(self.browser, 5).until(
                     EC.presence_of_element_located((By.TAG_NAME, 'h1')))
@@ -272,6 +272,45 @@ class TestConduit(object):
 
         actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
         assert len(actual_article_elements) == TestConduit.article_counter
-        input_article_titles.append(new_article_data["article_title"])
+        input_article_titles.append(new_article_data["article_title"]) #github actionhöz kell
         for article in actual_article_elements:
             assert article.text in input_article_titles
+
+    @allure.id('TC8')
+    @allure.title('Meglévő adat módosítás')
+    def test_data_update(self):
+        independent_cookies_accept(self.browser)
+        independent_login(self.browser)
+
+        time.sleep(2)
+        btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
+        btn_menu_logged_in_user.click()
+        time.sleep(2)
+
+        # actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
+        update_article = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//h1[text()="{new_article_data["article_title"]}"]')))
+        # print(update_article.text)
+        update_article.click()
+        time.sleep(2)
+        btn_edit_article = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@class="btn btn-sm btn-outline-secondary"]')))
+        btn_edit_article.click()
+        time.sleep(2)
+
+        input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
+        input_article_about.clear()
+        input_article_about.send_keys(update_article_data["article_about"])
+
+        btn_publish = self.browser.find_element(By.XPATH, '//button[@type="submit"]')
+        btn_publish.click()
+        time.sleep(5)
+
+        btn_menu_logged_in_user2 = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+        btn_menu_logged_in_user2.click()
+        time.sleep(2)
+
+        update_expected_article_title = new_article_data["article_title"].lower()
+        # print(update_expected_article_title)
+        words_of_update_expected_article_title = update_expected_article_title.split(' ')
+        new_update_expected_article_title = '-'.join(words_of_update_expected_article_title)
+        actual_article_about = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//a[@href="#/articles/{new_update_expected_article_title}"]/p')))
+        assert actual_article_about.text == update_article_data["article_about"]
