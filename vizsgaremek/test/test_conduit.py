@@ -14,12 +14,14 @@ import allure
 import csv
 
 import time
-from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, new_article_data
+from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
+    new_article_data
 from tmodule_conduit import independent_cookies_accept, independent_login
 
 
 class TestConduit(object):
     article_counter = 0
+
     def setup_method(self):
         service = Service(executable_path=ChromeDriverManager().install())
         options = Options()
@@ -90,7 +92,8 @@ class TestConduit(object):
         btn_func_sign_up.click()
         time.sleep(3)
         # message_ok = self.browser.find_element(By.XPATH, '//div[@class="swal-text"]')
-        message_ok = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//div[@class="swal-text"]')))
+        message_ok = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//div[@class="swal-text"]')))
         assert message_ok.text == 'Your registration was successful!'
         # print(message_ok.text)
         btn_ok_sign_up = self.browser.find_element(By.XPATH, '//button[@class="swal-button swal-button--confirm"]')
@@ -143,8 +146,9 @@ class TestConduit(object):
         independent_login(self.browser)
         time.sleep(5)
         btn_menu_log_out = \
-        WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
-            3]
+            WebDriverWait(self.browser, 5).until(
+                EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
+                3]
         btn_menu_log_out.click()
         time.sleep(5)
         page_name = self.browser.find_element(By.XPATH,
@@ -169,11 +173,13 @@ class TestConduit(object):
         independent_login(self.browser)
         time.sleep(5)
 
-        btn_new_articel = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
+        btn_new_articel = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
         btn_new_articel.click()
         time.sleep(5)
 
-        input_article_title = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
+        input_article_title = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
         input_article_title.send_keys(new_article_data["article_title"])
         input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
         input_article_about.send_keys(new_article_data["article_about"])
@@ -210,7 +216,7 @@ class TestConduit(object):
         independent_login(self.browser)
 
         input_article_titles = []
-        with open('datas_for_conduit.csv', 'r') as datas:
+        with open(r'\vizsgaremek\test\datas_for_conduit.csv', 'r') as datas:
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
                 btn_new_articel = WebDriverWait(self.browser, 5).until(
@@ -252,16 +258,15 @@ class TestConduit(object):
 
         # print(input_article_titles)
 
-        btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+        btn_menu_logged_in_user = \
+        WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
+            3]
         btn_menu_logged_in_user.click()
         time.sleep(5)
 
-        actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
+        actual_article_elements = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
         assert len(actual_article_elements) == self.article_counter
 
         for article in actual_article_elements:
             assert article.text in input_article_titles
-
-
-
-
