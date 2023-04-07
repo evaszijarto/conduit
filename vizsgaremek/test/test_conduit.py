@@ -13,7 +13,7 @@ from datetime import datetime, date, time, timezone
 import allure
 
 import time
-from data_conduit import sign_up_user, login_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text
+from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, new_article_data
 from tmodule_conduit import independent_cookies_accept, independent_login
 
 
@@ -33,8 +33,8 @@ class TestConduit(object):
         self.browser.maximize_window()
 
     def teardown_method(self):
-        # pass
-        self.browser.quit()
+        pass
+        # self.browser.quit()
 
     @allure.id('TC1')
     @allure.title('Oldal megnyitása')
@@ -160,3 +160,42 @@ class TestConduit(object):
             print(btn.text)
             assert btn.text == btns_menu_logged_out_expected_text[n]
             n += 1
+
+    @allure.id('TC6')
+    @allure.title('Új adat bevitel - Helyes adatokkal')
+    def test_data_creation(self):
+        independent_cookies_accept(self.browser)
+        independent_login(self.browser)
+        time.sleep(5)
+
+        btn_new_articel = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
+        btn_new_articel.click()
+        time.sleep(5)
+
+        input_article_title = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
+        input_article_title.send_keys(new_article_data["article_title"])
+        input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
+        input_article_about.send_keys(new_article_data["article_about"])
+        input_article = self.browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
+        input_article.send_keys(new_article_data["article"])
+        input_article_tag = self.browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
+        input_article_tag.send_keys(new_article_data["article_tags"])
+
+        btn_publish = self.browser.find_element(By.XPATH, '//button[@type="submit"]')
+        btn_publish.click()
+        time.sleep(5)
+
+        actual_article_title = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
+        # print(actual_article_title.text)
+        actual_article_author = self.browser.find_element(By.XPATH, '//a[@class="author"]')
+        actual_article = self.browser.find_element(By.TAG_NAME, 'p')
+        # print(actual_article.text)
+        actual_article_tags = self.browser.find_element(By.XPATH, '//div[@class="tag-list"]')
+        # print(actual_article_tags.text)
+        btn_post_comment = self.browser.find_element(By.XPATH, '//button[@class="btn btn-sm btn-primary"]')
+
+        assert actual_article_title.text == new_article_data["article_title"]
+        assert actual_article_author.text == sign_up_user["username"]
+        assert actual_article.text == new_article_data["article"]
+        assert actual_article_tags.text == new_article_data["article_tags"]
+        assert btn_post_comment.is_enabled()
