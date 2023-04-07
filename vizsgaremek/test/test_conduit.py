@@ -219,6 +219,7 @@ class TestConduit(object):
         input_article_titles = []
         print(self.article_counter)
         with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as datas:
+        # with open('datas_for_conduit.csv', 'r') as datas:
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
                 btn_new_articel = WebDriverWait(self.browser, 5).until(
@@ -271,6 +272,6 @@ class TestConduit(object):
 
         actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
         assert len(actual_article_elements) == TestConduit.article_counter
-
+        input_article_titles.append(new_article_data["article_title"])
         for article in actual_article_elements:
             assert article.text in input_article_titles
