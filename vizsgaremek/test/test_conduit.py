@@ -11,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from datetime import datetime, date, time, timezone
 import allure
+import csv
 
 import time
 from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, new_article_data
@@ -18,7 +19,7 @@ from tmodule_conduit import independent_cookies_accept, independent_login
 
 
 class TestConduit(object):
-
+    article_counter = 0
     def setup_method(self):
         service = Service(executable_path=ChromeDriverManager().install())
         options = Options()
@@ -199,3 +200,68 @@ class TestConduit(object):
         assert actual_article.text == new_article_data["article"]
         assert actual_article_tags.text == new_article_data["article_tags"]
         assert btn_post_comment.is_enabled()
+
+        self.article_counter += 1
+
+    @allure.id('TC7')
+    @allure.title('Ismételt és sorozatos adatbevitel adatforrásból - Helyes adatokkal')
+    def test_import_datas_from_file(self):
+        independent_cookies_accept(self.browser)
+        independent_login(self.browser)
+
+        input_article_titles = []
+        with open('datas_for_conduit.csv', 'r') as datas:
+            data_reader = csv.reader(datas, delimiter=';')
+            for data in data_reader:
+                btn_new_articel = WebDriverWait(self.browser, 5).until(
+                    EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
+                btn_new_articel.click()
+                time.sleep(5)
+
+                input_article_title = WebDriverWait(self.browser, 5).until(
+                    EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
+                input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
+                input_article = self.browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
+                input_article_tag = self.browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
+
+                input_article_title.send_keys(data[0])
+                input_article_about.send_keys(data[1])
+                input_article.send_keys(data[2])
+                input_article_tag.send_keys(data[3])
+
+                input_article_titles.append(data[0])
+
+                btn_publish = self.browser.find_element(By.XPATH, '//button[@type="submit"]')
+                btn_publish.click()
+                time.sleep(5)
+
+                self.article_counter += 1
+
+                actual_article_title = WebDriverWait(self.browser, 5).until(
+                    EC.presence_of_element_located((By.TAG_NAME, 'h1')))
+                actual_article_author = self.browser.find_element(By.XPATH, '//a[@class="author"]')
+                actual_article = self.browser.find_element(By.TAG_NAME, 'p')
+                actual_article_tags = self.browser.find_element(By.XPATH, '//div[@class="tag-list"]')
+                btn_post_comment = self.browser.find_element(By.XPATH, '//button[@class="btn btn-sm btn-primary"]')
+
+                assert actual_article_title.text == data[0]
+                assert actual_article_author.text == sign_up_user["username"]
+                assert actual_article.text == data[2]
+                assert actual_article_tags.text == data[3]
+                assert btn_post_comment.is_enabled()
+
+        # print(input_article_titles)
+
+        btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+        btn_menu_logged_in_user.click()
+        time.sleep(5)
+
+        actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
+        assert len(actual_article_elements) == self.article_counter
+
+        for article in actual_article_elements:
+            assert article.text in input_article_titles
+
+
+
+
