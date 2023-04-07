@@ -1,0 +1,8 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Fri Apr 07 20:24:12 GMT 2023","Fri Apr 07 20:24:22 GMT 2023","10547","vizsgaremek.test","test_conduit","TestConduit","","","Kijelentkezés - Helyes adatokkal",""
+"failed","Fri Apr 07 20:24:41 GMT 2023","Fri Apr 07 20:25:40 GMT 2023","59259","vizsgaremek.test","test_conduit","TestConduit","","","Ismételt és sorozatos adatbevitel adatforrásból - Helyes adatokkal",""
+"passed","Fri Apr 07 20:24:00 GMT 2023","Fri Apr 07 20:24:04 GMT 2023","3606","vizsgaremek.test","test_conduit","TestConduit","","","Regisztráció - Helyes adatokkal",""
+"passed","Fri Apr 07 20:24:23 GMT 2023","Fri Apr 07 20:24:40 GMT 2023","16076","vizsgaremek.test","test_conduit","TestConduit","","","Új adat bevitel - Helyes adatokkal",""
+"passed","Fri Apr 07 20:24:05 GMT 2023","Fri Apr 07 20:24:11 GMT 2023","5489","vizsgaremek.test","test_conduit","TestConduit","","","Bejelentkezés - Helyes adatokkal",""
+"passed","Fri Apr 07 20:23:58 GMT 2023","Fri Apr 07 20:23:58 GMT 2023","127","vizsgaremek.test","test_conduit","TestConduit","","","Oldal megnyitása",""
+"passed","Fri Apr 07 20:23:59 GMT 2023","Fri Apr 07 20:23:59 GMT 2023","108","vizsgaremek.test","test_conduit","TestConduit","","","Adatkezelési nyilatkozat elfogadása",""
