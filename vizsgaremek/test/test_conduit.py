@@ -208,6 +208,7 @@ class TestConduit(object):
         assert btn_post_comment.is_enabled()
 
         self.article_counter += 1
+        print(self.article_counter)
 
     @allure.id('TC7')
     @allure.title('Ismételt és sorozatos adatbevitel adatforrásból - Helyes adatokkal')
@@ -216,6 +217,7 @@ class TestConduit(object):
         independent_login(self.browser)
 
         input_article_titles = []
+        print(self.article_counter)
         with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as datas:
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
@@ -242,6 +244,7 @@ class TestConduit(object):
                 time.sleep(5)
 
                 self.article_counter += 1
+                print(self.article_counter)
 
                 actual_article_title = WebDriverWait(self.browser, 5).until(
                     EC.presence_of_element_located((By.TAG_NAME, 'h1')))
