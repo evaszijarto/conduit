@@ -162,7 +162,7 @@ class TestConduit(object):
         btns_menu_logged_out = self.browser.find_elements(By.XPATH, '//li[@class="nav-item"]')
         n = 0
         for btn in btns_menu_logged_out:
-            print(btn.text)
+            # print(btn.text)
             assert btn.text == btns_menu_logged_out_expected_text[n]
             n += 1
 
@@ -217,9 +217,9 @@ class TestConduit(object):
         independent_login(self.browser)
 
         input_article_titles = []
-        print(self.article_counter)
-        with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as datas: # github actionhöz kell
-        # with open('datas_for_conduit.csv', 'r') as datas: # pycharm futáshoz kell
+        # print(self.article_counter)
+        with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as datas:  # github actionhöz kell
+            # with open('datas_for_conduit.csv', 'r') as datas: # pycharm futáshoz kell
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
                 btn_new_articel = WebDriverWait(self.browser, 5).until(
@@ -266,13 +266,15 @@ class TestConduit(object):
         # btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
         # btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//a[@href="#/@{sign_up_user["username"]}"]')))
         # btn_menu_logged_in_user.click()
-        btn_article_author = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@class="author"]')))
+        btn_article_author = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//a[@class="author"]')))
         btn_article_author.click()
         time.sleep(5)
 
-        actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
+        actual_article_elements = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
         assert len(actual_article_elements) == TestConduit.article_counter
-        input_article_titles.append(new_article_data["article_title"]) #github actionhöz kell
+        input_article_titles.append(new_article_data["article_title"])  # github actionhöz kell
         for article in actual_article_elements:
             assert article.text in input_article_titles
 
@@ -281,18 +283,22 @@ class TestConduit(object):
     def test_data_update(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
-
         time.sleep(2)
-        btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
+
+        btn_menu_logged_in_user = \
+        WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
+            2]
         btn_menu_logged_in_user.click()
         time.sleep(2)
 
         # actual_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
-        update_article = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//h1[text()="{new_article_data["article_title"]}"]')))
+        update_article = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.XPATH, f'//h1[text()="{new_article_data["article_title"]}"]')))
         # print(update_article.text)
         update_article.click()
         time.sleep(2)
-        btn_edit_article = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@class="btn btn-sm btn-outline-secondary"]')))
+        btn_edit_article = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//a[@class="btn btn-sm btn-outline-secondary"]')))
         btn_edit_article.click()
         time.sleep(2)
 
@@ -304,7 +310,9 @@ class TestConduit(object):
         btn_publish.click()
         time.sleep(5)
 
-        btn_menu_logged_in_user2 = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+        btn_menu_logged_in_user2 = \
+        WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
+            3]
         btn_menu_logged_in_user2.click()
         time.sleep(2)
 
@@ -312,5 +320,59 @@ class TestConduit(object):
         # print(update_expected_article_title)
         words_of_update_expected_article_title = update_expected_article_title.split(' ')
         new_update_expected_article_title = '-'.join(words_of_update_expected_article_title)
-        actual_article_about = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//a[@href="#/articles/{new_update_expected_article_title}"]/p')))
+        actual_article_about = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located(
+            (By.XPATH, f'//a[@href="#/articles/{new_update_expected_article_title}"]/p')))
+        assert actual_article_about.text != new_article_data["article_about"]
         assert actual_article_about.text == update_article_data["article_about"]
+
+    @allure.id('TC9')
+    @allure.title('Adat vagy adatok törlése')
+    def test_delete_data(self):
+        independent_cookies_accept(self.browser)
+        independent_login(self.browser)
+        time.sleep(2)
+
+        btn_menu_logged_in_user = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
+        btn_menu_logged_in_user.click()
+        time.sleep(2)
+
+        self.browser.refresh()
+        time.sleep(2)
+        start_article_titles = []
+        start_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
+        start_number_of_article = len(start_article_elements)
+        for article in start_article_elements:
+            start_article_titles.append(article.text)
+        # print(start_article_titles)
+        assert start_number_of_article == TestConduit.article_counter
+        assert new_article_data["article_title"] in start_article_titles
+        delete_article = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, f'//h1[text()="{new_article_data["article_title"]}"]')))
+        # print(delete_article.text)
+        TestConduit.article_counter -= 1
+        delete_article.click()
+        time.sleep(2)
+
+        btn_delete_article = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.XPATH, '//button[@class="btn btn-outline-danger btn-sm"]')))
+        btn_delete_article.click()
+        time.sleep(2)
+
+        btn_menu_logged_in_user2 = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
+        btn_menu_logged_in_user2.click()
+        time.sleep(2)
+
+        self.browser.refresh()
+        time.sleep(5)
+        after_delete_article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
+        # print(after_delete_article_elements)
+        after_delete_number_of_article = len(after_delete_article_elements)
+        # print(after_delete_number_of_article)
+        after_delete_article_titles = []
+        for article in after_delete_article_elements:
+            after_delete_article_titles.append(article.text)
+        # print(after_delete_article_titles)
+        assert after_delete_number_of_article == start_number_of_article - 1
+        assert after_delete_number_of_article == TestConduit.article_counter
+        assert not new_article_data["article_title"] in after_delete_article_titles
+
+
+
