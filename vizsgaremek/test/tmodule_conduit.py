@@ -27,5 +27,27 @@ def independent_login(browser):
     btn_func_login = browser.find_element(By.XPATH, '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
 
     btn_func_login.click()
-    # time.sleep(5)
+    time.sleep(2)
+
+def logged_in_user_site_from_home(browser):
+    btn_menu_logged_in_user = WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
+    btn_menu_logged_in_user.click()
+    time.sleep(2)
+    browser.refresh()
+    time.sleep(2)
+
+def list_of_datas_and_titles(browser):
+    article_titles = []
+    article_elements = WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
+    number_of_article = len(article_elements)
+    for article in article_elements:
+        article_titles.append(article.text)
+    time.sleep(2)
+
+def logged_in_user_site_from_article(browser):
+    btn_menu_logged_in_user = WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+    btn_menu_logged_in_user.click()
+    time.sleep(2)
+    browser.refresh()
+    time.sleep(2)
 
