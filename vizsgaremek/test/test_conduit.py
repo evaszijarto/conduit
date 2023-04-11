@@ -459,3 +459,24 @@ class TestConduit(object):
                 #     assert for_site.readlines(r) == from_site.readlines(r)
                 #     r += 1
                 assert for_site.read() == from_site.read()
+
+    @allure.id('TC12')
+    @allure.title('Adatok listázása')
+    def test_data_listing(self):
+        independent_cookies_accept(self.browser)
+        independent_login(self.browser)
+
+        start_article_author_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="author"]')))
+        start_article_authors_number = 0
+        for article in start_article_author_elements:
+            if article.text == sign_up_user["username"]:
+                start_article_authors_number += 1
+        print(start_article_authors_number)
+
+        logged_in_user_site_from_home(self.browser)
+
+        article_author_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="author router-link-exact-active router-link-active"]')))
+        article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
+        assert len(article_author_elements) == len(article_elements)
+        assert len(article_author_elements) == start_article_authors_number
+        assert len(article_author_elements) == TestConduit.article_counter
