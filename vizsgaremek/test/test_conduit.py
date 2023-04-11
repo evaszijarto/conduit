@@ -17,7 +17,7 @@ import time
 from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
     new_article_data, update_article_data
 from tmodule_conduit import independent_cookies_accept, independent_login, logged_in_user_site_from_home, \
-    list_of_datas_and_titles, logged_in_user_site_from_article, create_more_articles
+    list_of_datas_and_titles, logged_in_user_site_from_article, create_more_articles, go_home
 
 
 class TestConduit(object):
@@ -270,7 +270,9 @@ class TestConduit(object):
         btn_article_author = WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.XPATH, '//a[@class="author"]')))
         btn_article_author.click()
-        time.sleep(5)
+        time.sleep(2)
+        self.browser.refresh()
+        time.sleep(2)
 
         actual_article_elements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
@@ -491,6 +493,7 @@ class TestConduit(object):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
         create_more_articles(self.browser)  # pycharm futtatásnál ki kell venni
+        go_home(self.browser) # pycharm futtatásnál ki kell venni
 
         pagination_webelement = WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.XPATH, '//ul[@class="pagination"]')))

@@ -14,9 +14,12 @@ import time
 import csv
 from data_conduit import sign_up_user, login_user
 
+
 def independent_cookies_accept(browser):
-    btn_cookies_accept = browser.find_element(By.XPATH, '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
+    btn_cookies_accept = browser.find_element(By.XPATH,
+                                              '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
     btn_cookies_accept.click()
+
 
 def independent_login(browser):
     btn_menu_login = browser.find_element(By.XPATH, '//a[@href="#/login"]')
@@ -30,12 +33,15 @@ def independent_login(browser):
     btn_func_login.click()
     time.sleep(2)
 
+
 def logged_in_user_site_from_home(browser):
-    btn_menu_logged_in_user = WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
+    btn_menu_logged_in_user = \
+    WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
     btn_menu_logged_in_user.click()
     time.sleep(2)
     browser.refresh()
     time.sleep(2)
+
 
 def list_of_datas_and_titles(browser):
     article_titles = []
@@ -45,22 +51,27 @@ def list_of_datas_and_titles(browser):
         article_titles.append(article.text)
     time.sleep(2)
 
+
 def logged_in_user_site_from_article(browser):
-    btn_menu_logged_in_user = WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+    btn_menu_logged_in_user = \
+    WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
     btn_menu_logged_in_user.click()
     time.sleep(2)
     browser.refresh()
     time.sleep(2)
 
+
 def create_more_articles(browser):
     with open('./vizsgaremek/test/datas_for_page_turning_conduit.csv', 'r', encoding='UTF-8') as datas:
         data_reader = csv.reader(datas, delimiter=';')
         for data in data_reader:
-            btn_new_articel = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
+            btn_new_articel = WebDriverWait(browser, 5).until(
+                EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
             btn_new_articel.click()
             time.sleep(2)
 
-            input_article_title = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
+            input_article_title = WebDriverWait(browser, 5).until(
+                EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
             input_article_about = browser.find_element(By.XPATH, '//input[@class="form-control"]')
             input_article = browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
             input_article_tag = browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
@@ -72,4 +83,10 @@ def create_more_articles(browser):
 
             btn_publish = browser.find_element(By.XPATH, '//button[@type="submit"]')
             btn_publish.click()
-            time.sleep(2)
+            time.sleep(5)
+
+
+def go_home(browser):
+    btn_menu_home = \
+    WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[0]
+    btn_menu_home.click()
