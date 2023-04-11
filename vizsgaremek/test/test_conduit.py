@@ -17,7 +17,7 @@ import time
 from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
     new_article_data, update_article_data
 from tmodule_conduit import independent_cookies_accept, independent_login, logged_in_user_site_from_home, \
-    list_of_datas_and_titles, logged_in_user_site_from_article
+    list_of_datas_and_titles, logged_in_user_site_from_article, create_more_articles
 
 
 class TestConduit(object):
@@ -219,7 +219,7 @@ class TestConduit(object):
 
         input_article_titles = []
         # print(self.article_counter)
-        with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as datas:  # github actionhöz kell
+        with open('./vizsgaremek/test/datas_for_conduit.csv', 'r', encoding='UTF-8') as datas:  # github actionhöz kell
             # with open('datas_for_conduit.csv', 'r') as datas: # pycharm futáshoz kell
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
@@ -336,8 +336,9 @@ class TestConduit(object):
         time.sleep(2)
 
         btn_menu_logged_in_user = \
-        WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
-            2]
+            WebDriverWait(self.browser, 5).until(
+                EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
+                2]
         btn_menu_logged_in_user.click()
         time.sleep(2)
         self.browser.refresh()
@@ -365,8 +366,9 @@ class TestConduit(object):
         time.sleep(2)
 
         btn_menu_logged_in_user2 = \
-        WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
-            2]
+            WebDriverWait(self.browser, 5).until(
+                EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
+                2]
         btn_menu_logged_in_user2.click()
         time.sleep(2)
         self.browser.refresh()
@@ -440,7 +442,7 @@ class TestConduit(object):
                 else:
                     file.write('\n')
 
-        with open('./vizsgaremek/test/datas_from_site.csv', 'r') as from_site:
+        with open('./vizsgaremek/test/datas_from_site.csv', 'r', encoding='UTF-8') as from_site:
             from_site_datas = csv.reader(from_site, delimiter=';')
             r = 0
             for row in from_site_datas:
@@ -450,9 +452,9 @@ class TestConduit(object):
                 assert row[3] == article_tags[r]
                 r += 1
 
-        with open('./vizsgaremek/test/datas_from_site.csv', 'r') as from_site:
+        with open('./vizsgaremek/test/datas_from_site.csv', 'r', encoding='UTF-8') as from_site:
             from_site_datas = csv.reader(from_site, delimiter=';')
-            with open('./vizsgaremek/test/datas_for_conduit.csv', 'r') as for_site:
+            with open('./vizsgaremek/test/datas_for_conduit.csv', 'r', encoding='UTF-8') as for_site:
                 for_site_datas = csv.reader(for_site, delimiter=';')
                 # r = 0
                 # for row in for_site_datas:
@@ -460,23 +462,47 @@ class TestConduit(object):
                 #     r += 1
                 assert for_site.read() == from_site.read()
 
-    @allure.id('TC12')
+    @allure.id('TC11')
     @allure.title('Adatok listázása')
     def test_data_listing(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
 
-        start_article_author_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="author"]')))
+        start_article_author_elements = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_all_elements_located((By.XPATH, '//a[@class="author"]')))
         start_article_authors_number = 0
         for article in start_article_author_elements:
             if article.text == sign_up_user["username"]:
                 start_article_authors_number += 1
-        print(start_article_authors_number)
+        # print(start_article_authors_number)
 
         logged_in_user_site_from_home(self.browser)
 
-        article_author_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="author router-link-exact-active router-link-active"]')))
+        article_author_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located(
+            (By.XPATH, '//a[@class="author router-link-exact-active router-link-active"]')))
         article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
         assert len(article_author_elements) == len(article_elements)
         assert len(article_author_elements) == start_article_authors_number
         assert len(article_author_elements) == TestConduit.article_counter
+
+    @allure.id('TC12')
+    @allure.title('Több oldalas lista bejárása')
+    def test_data_page_turning(self):
+        independent_cookies_accept(self.browser)
+        independent_login(self.browser)
+        create_more_articles(self.browser) # pycharm futtatásnál ki kell venni
+
+        pagination_webelement = WebDriverWait(self.browser, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//ul[@class="pagination"]')))
+        page_number = int(pagination_webelement.text[-1])
+
+        btn_page_numbers = self.browser.find_elements(By.XPATH, '//nav/ul/li/a')
+        n = 0
+        for page in btn_page_numbers:
+            page.click()
+            btn_page_numbers_class = self.browser.find_elements(By.XPATH, '//nav/ul/li')[n]
+            assert btn_page_numbers_class.get_attribute('class') == "page-item active"
+            n += 1
+            # print(page.text)
+        btn_page_number = len(btn_page_numbers)
+        assert page_number == btn_page_number

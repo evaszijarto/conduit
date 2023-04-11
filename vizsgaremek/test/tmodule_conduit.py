@@ -11,6 +11,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from datetime import datetime, date, time, timezone
 
 import time
+import csv
 from data_conduit import sign_up_user, login_user
 
 def independent_cookies_accept(browser):
@@ -51,3 +52,24 @@ def logged_in_user_site_from_article(browser):
     browser.refresh()
     time.sleep(2)
 
+def create_more_articles(browser):
+    with open('./vizsgaremek/test/datas_for_listing_conduit.csv', 'r', encoding='UTF-8') as datas:
+        data_reader = csv.reader(datas, delimiter=';')
+        for data in data_reader:
+            btn_new_articel = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
+            btn_new_articel.click()
+            time.sleep(2)
+
+            input_article_title = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
+            input_article_about = browser.find_element(By.XPATH, '//input[@class="form-control"]')
+            input_article = browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
+            input_article_tag = browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
+
+            input_article_title.send_keys(data[0])
+            input_article_about.send_keys(data[1])
+            input_article.send_keys(data[2])
+            input_article_tag.send_keys(data[3])
+
+            btn_publish = browser.find_element(By.XPATH, '//button[@type="submit"]')
+            btn_publish.click()
+            time.sleep(2)
