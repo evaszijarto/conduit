@@ -53,7 +53,7 @@ def logged_in_user_site_from_article(browser):
     time.sleep(2)
 
 def create_more_articles(browser):
-    with open('./vizsgaremek/test/datas_for_listing_conduit.csv', 'r', encoding='UTF-8') as datas:
+    with open('./vizsgaremek/test/datas_for_page_turning_conduit.csv', 'r', encoding='UTF-8') as datas:
         data_reader = csv.reader(datas, delimiter=';')
         for data in data_reader:
             btn_new_articel = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))

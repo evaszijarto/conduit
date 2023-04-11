@@ -490,7 +490,7 @@ class TestConduit(object):
     def test_data_page_turning(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
-        create_more_articles(self.browser) # pycharm futtatásnál ki kell venni
+        create_more_articles(self.browser)  # pycharm futtatásnál ki kell venni
 
         pagination_webelement = WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.XPATH, '//ul[@class="pagination"]')))
