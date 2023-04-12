@@ -14,7 +14,7 @@ import time
 from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
     new_article_data, update_article_data
 from module_conduit import independent_cookies_accept, independent_login, logged_in_user_site_from_home, \
-    list_of_datas_and_titles, logged_in_user_site_from_article, create_more_articles, go_home, list_upload
+    list_of_datas_and_parameters, logged_in_user_site_from_article, create_more_articles_from_file, go_home, list_upload
 
 
 class TestConduit(object):
@@ -40,8 +40,11 @@ class TestConduit(object):
     @allure.title('Oldal megnyitása')
     @allure.description('''
     Teszteset leírás:
+    
         Conduit weboldal megnyitása.
+    
     Vizsgálat leírás:
+    
         - az oldalon a weboldal neve megjelenik
         - az oldalon a weboldal logoja megjelenik
         - az oldalon a weboldal neve conduit
@@ -60,11 +63,16 @@ class TestConduit(object):
     @allure.title('Adatkezelési nyilatkozat elfogadása')
     @allure.description('''
     Teszteset leírás:
-        Conduit weboldal adatkezelési nyilatkozat panelnek és az elfogadó gombnak a megkeresése. Majd a gomb megnyomása.
+   
+        Conduit weboldal adatkezelési nyilatkozat panelnek és az elfogadó gombnak a megkeresése. Majd a gomb 
+        megnyomása.
+   
     Vizsgálat leírás:
+   
         - a nyilatkozat elfogadása előtt:
             < az adatkeezlési nyilatkozat panel az oldalon megjelenik és interaktálható
             < a nyilatkozatot elfogadó gomb a panelen használható
+   
         - a nyilatkozat elfogadása után: 
             < az adatkezelési nyilatkozat panel nem jelenik meg, megkeresése hibát ad
         ''')
@@ -85,15 +93,19 @@ class TestConduit(object):
     @allure.title('Regisztráció - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
-        Másik modulból adatkezelési nyilatkozat függvény behívása.
+    
+        Másik modulból adatkezelési nyilatkozat elfogadása függvény behívása.
         Regisztráció menü megkeresése és megnyomása.
         Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
         Regisztráció gomb megkeresése és megnyomása.
         Megjelenő válaszpanel üzenetének és ok gombjának megkeresése. Majd gomb megnyomása.
-    Vizgálatok leírása:
+    
+    Vizsgálatok leírása:
+        
         - regisztráció gomb megnyomása előtt:
             < az input mezők nem üresek
             < az input mezőkben azok az adatok szerepelnek, amik a külső adatforrásban is megjelennek
+        
         - regisztráció gomb megnyomása után:
             < a kapott válasz üzenet szövegének ellenőrzése
             < a válaszüzeneten lévő ok gomb interaktálható    
@@ -122,11 +134,9 @@ class TestConduit(object):
 
         btn_func_sign_up.click()
         time.sleep(3)
-        # message_ok = self.browser.find_element(By.XPATH, '//div[@class="swal-text"]')
         message_ok = WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class="swal-text"]')))
         assert message_ok.text == 'Your registration was successful!'
-        # print(message_ok.text)
         btn_ok_sign_up = self.browser.find_element(By.XPATH, '//button[@class="swal-button swal-button--confirm"]')
         assert btn_ok_sign_up.is_enabled()
         btn_ok_sign_up.click()
@@ -135,17 +145,21 @@ class TestConduit(object):
     @allure.title('Bejelentkezés - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
-        Másik modulból adatkezelési nyilatkozat függvény behívása.
+    
+        Másik modulból adatkezelési nyilatkozat elfogadása függvény behívása.
         Bejelentkezési menü megkeresése és megnyomása.
         Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
         Bejelentkezés gomb megkeresése és megnyomása.
         Bejelentkezett felhasználó menüpontjának megkeresése.
         A bejelentkezést követően az újonnan megjelenő menüpontok megkeresése.
-    Vizgálatok leírása:
+    
+    Vizsgálatok leírása:
+    
         - bejelentkezés gomb megnyomása előtt:
             < a bejelentkezési gomb használható
             < az input mezők nem üresek
             < az input mezőkben azok az adatok szerepelnek, amik a külső adatforrásban is megjelennek
+    
         - bejelentkezési gomb megnyomása után:
             < megjelenik a felhasználói menüpont
             < a felhasználói menüpont interaktálható
@@ -171,7 +185,7 @@ class TestConduit(object):
         assert input_password.get_attribute('value') == sign_up_user['password']
 
         btn_func_login.click()
-        time.sleep(5)
+        time.sleep(3)
         btn_menu_logged_in_user = \
             WebDriverWait(self.browser, 5).until(
                 EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
@@ -189,17 +203,21 @@ class TestConduit(object):
     @allure.title('Kijelentkezés - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
+    
         Másik modulból meghívott függvények: 
             - adatkezelési nyilatkozat elfogadása
             - bejelentkezés megadott felhasználóval
+    
         Kijelentkezési menü megkeresése és megnyomása.
         A kijelentkezést követően az újonnan megjelenő menüpontok megkeresése.
-    Vizgálatok leírása:
+    
+    Vizsgálatok leírása:
+    
         - az oldalon a weboldal neve megjelenik
         - az oldalon a weboldal logoja megjelenik
         - az oldalon a weboldal neve conduit
         - az oldalon a weboldal logojának a szövege conduit
-         - a megjelenő menüpontok szövegei megegyeznek a külső data forrásban szereplő szövegekkel
+        - a megjelenő menüpontok szövegei megegyeznek a külső data forrásban szereplő szövegekkel
     ''')
     def test_log_out(self):
         independent_cookies_accept(self.browser)
@@ -230,16 +248,21 @@ class TestConduit(object):
     @allure.title('Új adat bevitel (blogbejegyzés) - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
+    
         Másik modulból meghívott függvények: 
             - adatkezelési nyilatkozat elfogadása
             - bejelentkezés megadott felhasználóval
+    
         Új blogbejegyzés menü megkeresése és megnyomása.
         Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
         Publikálás gomb megkeresése és megnyomása.
         Az újonnan megjelenő oldalon a létrehozott blogbejegyzés adatainak megkeresése.
         Új komment létrehozás gomb megkeresése.
-        Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 1-gyel történő növelése.
-    Vizgálatok leírása:
+        Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 1-gyel 
+        történő növelése.
+    
+    Vizsgálatok leírása:
+    
         - a létrehozott blogbejegyzés adatainak szövege megegyezik a külső forrásban lévő adatok szövegével
         - új komment létrehozása gomb interaktárlható
     ''')
@@ -284,9 +307,12 @@ class TestConduit(object):
     @allure.title('Ismételt és sorozatos adatbevitel adatforrásból (blogbejegyzések) - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
+        
         Másik modulból meghívott függvények: 
             - adatkezelési nyilatkozat elfogadása
             - bejelentkezés megadott felhasználóval
+            - felhasználói menübe navigálás (blogbejegyzésből)
+        
         Függvény válozó létrehozása a teszteset során létrehozott blogbejegyzések címének eltárolásához.
         Külső adatforrás megnyitása
         For ciklusban: 
@@ -294,20 +320,26 @@ class TestConduit(object):
             Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
             Függvény változóhoz hozzáadásra kerül a létrehozott blogbejegyzés címe
             Publikálás gomb megkeresése és megnyomása.
-            Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 1-gyel történő növelése.
+            Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 
+            1-gyel történő növelése.
             Az újonnan megjelenő oldalon a létrehozott blogbejegyzés adatainak megkeresése.
             Új komment létrehozás gomb megkeresése.
-        Az utolsőként létrehozott blogbejegyzésben a szerző gombjának megkeresése és megnyomása
-        Megjelenő weboldal frissítése
+        Felhasználói menübe nevigálás.
         Az oldalon a felhasználóhoz tartozó blogbejegyzések címeinek kikeresése.
         A TC6-ban létrehozott blogbejegyzés címének hozzáadása a függvény változóhoz.
-    Vizgálatok leírása:
+    
+    Vizsgálatok leírása:
+    
         - for cikluson belül:
-            < a létrehozott blogbejegyzés adatainak szövege megegyezik a külső forrásban lévő adatok szövegével
+            < a létrehozott blogbejegyzés adatainak szövege megegyezik a külső forrásban lévő adatok 
+              szövegével
             < új komment létrehozása gomb interaktárlható
+    
         - for ciklus után:
-            < az oldalon a felhasználóhoz tartozó blogbejegyzések címeinek száma megegyezik a felhasználó által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
-            < a függvény változóban eltárolt blogbejegyzés címek lista elemei szerepelnek a felhasználói menüpont alatt megjelenő felhasználóhoz tartozó bejegyzések címeinek listájában
+            < az oldalon a felhasználóhoz tartozó blogbejegyzések címeinek száma megegyezik a felhasználó 
+              által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
+            < a függvény változóban eltárolt blogbejegyzés címek lista elemei szerepelnek a felhasználói 
+              menüpont alatt megjelenő felhasználóhoz tartozó bejegyzések címeinek listájában
     ''')
     def test_import_datas_from_file(self):
         independent_cookies_accept(self.browser)
@@ -354,13 +386,7 @@ class TestConduit(object):
                 assert actual_article_tags.text == data[3]
                 assert btn_post_comment.is_enabled()
 
-        time.sleep(2)
-        btn_article_author = WebDriverWait(self.browser, 5).until(
-            EC.presence_of_element_located((By.XPATH, '//a[@class="author"]')))
-        btn_article_author.click()
-        time.sleep(1)
-        self.browser.refresh()
-        time.sleep(2)
+        logged_in_user_site_from_article(self.browser)
 
         actual_article_elements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
@@ -370,24 +396,31 @@ class TestConduit(object):
             assert article.text in input_article_titles
 
     @allure.id('TC8')
-    @allure.title('Meglévő adat módosítás')
+    @allure.title('Meglévő adat módosítás (blogbejegyzés About mező')
     @allure.description('''
     Teszteset leírás:
+    
         Másik modulból meghívott függvények: 
             - adatkezelési nyilatkozat elfogadása
             - bejelentkezés megadott felhasználóval
             - felhasználói menübe navigálás (home oldalról)
             - felhasználói menübe navigálás (blogbejegyzésből)
+            
         Módosítani kívánt blogbejegyzés megkeresése (külső adatforrás segítségévle) és megjelenítése.
         Blogbejegyzés módosítása gomb megkeresése és megnyomása
-        Bejegyzés About mezőjének megkeresése, tartalmának törlése és külső adatforrásból az új értékkel történő kitöltése.
+        Bejegyzés About mezőjének megkeresése, tartalmának törlése és külső adatforrásból az új értékkel 
+        történő kitöltése.
         Publikálás gomb megkeresése és megnyomása.
         Felhasználói menübe navigálás
         A módosított bejegyzés címének a formátumának az átalakítása.
         Az átalakított cím segítségével a módosított blogbejegyzés About mezőjének kikeresése.
-    Vizgálatok leírása:
-        - a módosított bejegyzés About mezőjének jelenlegi értéke nem egyezik meg a külső adatforrásban szereplő eredeti About mező szöveg értékével
-        - a módosított bejegyzés About mezőjének jelenlegi értéke megegyezik a külső adatforrásban szereplő módosított About mező szöveg értékével
+    
+    Vizsgálatok leírása:
+    
+        - a módosított bejegyzés About mezőjének jelenlegi értéke nem egyezik meg a külső adatforrásban 
+          szereplő eredeti About mező szöveg értékével
+        - a módosított bejegyzés About mezőjének jelenlegi értéke megegyezik a külső adatforrásban szereplő 
+          módosított About mező szöveg értékével
     ''')
     def test_data_update(self):
         independent_cookies_accept(self.browser)
@@ -422,33 +455,49 @@ class TestConduit(object):
         assert actual_article_about.text == update_article_data["article_about"]
 
     @allure.id('TC9')
-    @allure.title('Adat vagy adatok törlése (blogbejegyzés')
+    @allure.title('Adat vagy adatok törlése (blogbejegyzés)')
     @allure.description('''
     Teszteset leírás:
+    
         Másik modulból meghívott függvények: 
             - adatkezelési nyilatkozat elfogadása
             - bejelentkezés megadott felhasználóval
             - felhasználói menübe navigálás (home oldalról)
-        Függvény válozó létrehozása a törlés előtt meglévő felhasználóhoz taroztó blogbejegyzések címének eltárolásához.
+            - lista feltöltése adatokkal
+    
+        Függvény válozó létrehozása a törlés előtt meglévő felhasználóhoz taroztó blogbejegyzések címének 
+        eltárolásához.
         A felhasználóhoz tartozó bejegyzések címeinek kikeresése.
         A címek számának eltárolása egy függvény vátlozóba.
-        For ciklus segítségével a törlsé előtti start állapot szerinti bejegyzés címek tárolására létrehozott függvény változó feltöltése.
+        For ciklus segítségével a törlsé előtti start állapot szerinti bejegyzés címek tárolására létrehozott 
+        függvény változó feltöltése.
         Törölni kívánt blogbejegyzés megkeresése (külső adatforrás segítségévle) és megjelenítése.
         Blogbejegyzés törlése gomb megkeresése és megnyomása
-        Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 1-gyel történő csökkentése.
+        Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 1-gyel 
+        történő csökkentése.
         Felhasználói menübe navigálás
-        Függvény válozó létrehozása a törlés utáni felhasználóhoz taroztó blogbejegyzések címének eltárolásához.
+        Függvény válozó létrehozása a törlés utáni felhasználóhoz taroztó blogbejegyzések címének 
+        eltárolásához.
         A törlés után a felhasználóhoz tartozó bejegyzések címeinek kikeresése.
         A törlés után a címek számának eltárolása egy függvény változóba.
-        For ciklus segítségével a törlsé utáni állapot szerinti bejegyzés címek tárolására létrehozott függvény változó feltöltése.
-    Vizgálatok leírása:
+        For ciklus segítségével a törlsé utáni állapot szerinti bejegyzés címek tárolására létrehozott 
+        függvény változó feltöltése.
+        
+    Vizsgálatok leírása:
+    
         - törlés előtt:
-            < az oldalon a felhasználóhoz tartozó blogbejegyzések címeinek száma megegyezik a felhasználó által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
-            < a függvény változóban eltárolt blogbejegyzés címek lista elemei szerepelnek a felhasználói menüpont alatt megjelenő felhasználóhoz tartozó bejegyzések címeinek listájában
+            < az oldalon a felhasználóhoz tartozó blogbejegyzések címeinek száma megegyezik a felhasználó 
+              által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
+            < a függvény változóban eltárolt blogbejegyzés címek lista elemei szerepelnek a felhasználói m
+              enüpont alatt megjelenő felhasználóhoz tartozó bejegyzések címeinek listájában
+    
         - törlés után:
-            < a törlés utáni felhasználóhoz taroztó cikkek száma megegyezik a törlés előtti felhasználóhoz tartozó cikkek számának eggyel csökkentett értékével
-            < a törlés utáni felhasználóhoz taroztó cikkek száma megegyezik a felhasználó által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
-            < törölt blogbejegyzés címe nem szerepel a törlés utáni felhasználóhoz tartozó cikkek címének listájában
+            < a törlés utáni felhasználóhoz taroztó cikkek száma megegyezik a törlés előtti felhasználóhoz 
+              tartozó cikkek számának eggyel csökkentett értékével
+            < a törlés utáni felhasználóhoz taroztó cikkek száma megegyezik a felhasználó által létrehozott 
+              blogbejegyzések osztályváltozóban tárolt értékével
+            < törölt blogbejegyzés címe nem szerepel a törlés utáni felhasználóhoz tartozó cikkek címének 
+              listájában
     ''')
     def test_delete_data(self):
         independent_cookies_accept(self.browser)
@@ -475,7 +524,7 @@ class TestConduit(object):
         btn_delete_article.click()
         time.sleep(2)
 
-        logged_in_user_site_from_home()
+        logged_in_user_site_from_home(self.browser)
         time.sleep(2)
 
         after_delete_article_elements = WebDriverWait(self.browser, 5).until(
@@ -490,35 +539,67 @@ class TestConduit(object):
         assert not new_article_data["article_title"] in after_delete_article_titles
 
     @allure.id('TC10')
-    @allure.title('Adatok lementése felületről')
+    @allure.title('Adatok lementése felületről (blogbejegyzések)')
+    @allure.description('''
+    Teszteset leírás:
+
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - felhasználói menübe navigálás (home oldalról)
+            - felhasználói menübe navigálás (blogbejegyzésből)
+            - lista feltöltése adatokkal
+
+        Üres liták létrehozása, amibe lementésre kerülnek a weboldalon szereplő felhasználó által készített 
+        bejegyzések különböző mezői.
+        Bejegyzések mezőinek kikeresése (cím, about, tag).
+        Felhasználóhoz tartozó cikkek számának meghatározsáa bejegyzés címek száma alapján.
+        Első for ciklusban: 
+            Az előzőekben létrehozott üres listák feltöltése adatokkal (cím, about, tag)
+        Második for ciklusban:
+            Az egyes bejegyzések teljes tartalmának megjelenítése.
+            A bejegyzésekben lévő szöveg mezők kikeresése és a szöveg mezőket tartalmazó lista feltöltése 
+            ezen adatokkal.
+            Majd a felhasználói menübe nevigálás.
+        Első "with' metódusban:
+            Fájl létrehozása, amibe az előzőekben létrehozott listákból egy-egy sorba beírásra keülnek az 
+            egy bejegyzéshez tartozó adatok ;-vel elválasztva.
+        
+    Vizsgálatok leírása:
+
+        - második "with" metódusban:
+            < a létrehozott fájl pontosvesszővel elválasztott elemei megegyeznek a létrehozott listák 
+              megfelelő elemeivel
+
+        - harmadik "with" metódusban:
+            < a létrehozott fájl teljes tartalma megegyezik a korábbi ismételt és sorozatos adatbevitel 
+              adatforrásból tesztesetnél használt adatforrással
+    ''')
     def test_save_data_from_site(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
         logged_in_user_site_from_home(self.browser)
+
         article_titles = []
         article_abouts = []
         article_fields = []
         article_tags = []
         article_webelements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.XPATH, '//h1')))
-        # print(article_webelements)
         number_of_article = len(article_webelements)
-        # print(number_of_article)
         article_about_webelements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.XPATH, '//p')))
         article_tag_webelements = self.browser.find_elements(By.XPATH, '//div[@class="tag-list"]')
-        p = 1
-        n = 0
-        for article in article_webelements:
-            article_titles.append(article.text)
-            # print(article_titles)
-            article_abouts.append(article_about_webelements[p].text)
-            # print(article_abouts)
-            p += 1
-            article_tags.append(article_tag_webelements[n].text)
-        # print(article_titles)
-        # print(article_abouts)
-        # print(article_tags)
+        list_upload(article_webelements, article_titles)
+        list_upload(article_tag_webelements, article_tags)
+        list_upload(article_about_webelements[1:], article_abouts)
+        # p = 1
+        # n = 0
+        # for article in article_webelements:
+        #     article_titles.append(article.text)
+        #     article_abouts.append(article_about_webelements[p].text)
+        #     p += 1
+        #     article_tags.append(article_tag_webelements[n].text)
 
         for n in range(number_of_article):
             article_webelements = WebDriverWait(self.browser, 5).until(
@@ -529,7 +610,6 @@ class TestConduit(object):
             article_fields.append(article_field.text)
             logged_in_user_site_from_article(self.browser)
 
-        # print(article_fields)
         with open('./vizsgaremek/test/datas_from_site.csv', 'w', encoding='UTF-8') as file:
             for r in range(number_of_article):
                 file.write(article_titles[r])
@@ -558,14 +638,39 @@ class TestConduit(object):
             from_site_datas = csv.reader(from_site, delimiter=';')
             with open('./vizsgaremek/test/datas_for_conduit.csv', 'r', encoding='UTF-8') as for_site:
                 for_site_datas = csv.reader(for_site, delimiter=';')
-                # r = 0
-                # for row in for_site_datas:
-                #     assert for_site.readlines(r) == from_site.readlines(r)
-                #     r += 1
                 assert for_site.read() == from_site.read()
 
     @allure.id('TC11')
-    @allure.title('Adatok listázása')
+    @allure.title('Adatok listázása (adott felhasználó által létrehozott blogbejegyzések)')
+    @allure.description('''
+    Teszteset leírás:
+
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - felhasználói menübe navigálás (home oldalról)
+
+        A bejelentkezést követő oldalon megjelenő összes cikk szerző elemének kikeresése.
+        Egy függvényváltozó létrehozása, melyben a bejelentkezett felhasználó által készített cikkek 
+        száma kerül eltárolásra.
+        Első for ciklusban: 
+            Ha a vizsgált szerző text adata megegyezik a bejelentkezett felhasználó username adatával, 
+            akkor a létrehozott függvényváltozó értéke megnövekszik 1-gyel
+        Felhasználói menübe navigálás. 
+        Megjelennek a felhasználó által készített cikkek listája.
+        A megjelent cikkek szerző adatainak kikeresése.
+        A megjelent cikkek cím adatainak megkeresése.
+
+    Vizsgálatok leírása:
+
+        - A felhasználói menüben megjelenő cikkek szerző adatainak száma megegyezik az ezen az oldalon 
+          szereplő cikk címek számával.
+        - A felhasználói menüben megjelenő cikkek szerző adatainak száma megegyezik a korábban 
+          létrehozott függvényváltozó (bejelentkezett felhasználó által készített cikkek száma a 
+          nyitóoldalon, szűrés nélkül) értékével
+        - A felhasználói menüben megjelenő cikkek szerző adatainak száma megegyezik a felhasználó 
+          által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
+    ''')
     def test_data_listing(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
@@ -576,7 +681,6 @@ class TestConduit(object):
         for article in start_article_author_elements:
             if article.text == sign_up_user["username"]:
                 start_article_authors_number += 1
-        # print(start_article_authors_number)
 
         logged_in_user_site_from_home(self.browser)
 
@@ -588,11 +692,40 @@ class TestConduit(object):
         assert len(article_author_elements) == TestConduit.article_counter
 
     @allure.id('TC12')
-    @allure.title('Több oldalas lista bejárása')
+    @allure.title('Több oldalas lista bejárása (blogbejegyzések bejárása Home/Global feed oldalon)')
+    @allure.description('''
+    Teszteset leírás:
+
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - tömeges blogbejegyzés létrehozás külső adatforrásból
+            - Home oldalra navigálás
+            - felhasználói menübe navigálás (home oldalról)
+
+        A Home/Global feed menü alatt megjelennek a webhelyen a létrehozott blogbejegyzések szűrő 
+        használata nélkül.
+        A lapozásra vonatkozó összesítő webelement kikeresése.
+        Az összesítő utolsó elemének eltárolása egy függvényváltozóba. Ez adja meg az utolsó oldal 
+        számát.
+        Az oldlak számainak kikeresése a webhelyen.
+        For ciklusban: 
+            Az oldal lap számra kattintás.
+            Az aktív oldal class attribútumának kikeresése.
+        Függvényváltozóba rögzítésre kerül az oldalak számainak mennyisége.
+
+    Vizsgálatok leírása:
+
+        - For cikluson belül:
+            < A megkattintott oldal class attribútuma megegyezik a "page-item active" classal. 
+            < A következő oldal class attribútuma nem egyezik meg a "page-item active" classal.
+        - For ciklus után:
+            < Az oldalak számának mennyisége megegyezik a lapok összesítőjének utolsó értékével
+    ''')
     def test_data_page_turning(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
-        create_more_articles(self.browser)  # pycharm futtatásnál ki kell venni
+        create_more_articles_from_file(self.browser, './vizsgaremek/test/datas_for_page_turning_conduit.csv')  # pycharm futtatásnál ki kell venni
         go_home(self.browser)  # pycharm futtatásnál ki kell venni
 
         pagination_webelement = WebDriverWait(self.browser, 5).until(
@@ -601,11 +734,15 @@ class TestConduit(object):
 
         btn_page_numbers = self.browser.find_elements(By.XPATH, '//nav/ul/li/a')
         n = 0
+        btn_page_number = len(btn_page_numbers)
         for page in btn_page_numbers:
             page.click()
             btn_page_numbers_class = self.browser.find_elements(By.XPATH, '//nav/ul/li')[n]
             assert btn_page_numbers_class.get_attribute('class') == "page-item active"
+            if n == btn_page_number - 1:
+                pass
+            else:
+                assert self.browser.find_elements(By.XPATH, '//nav/ul/li')[n + 1].get_attribute(
+                    'class') != "page-item active"
             n += 1
-            # print(page.text)
-        btn_page_number = len(btn_page_numbers)
         assert page_number == btn_page_number

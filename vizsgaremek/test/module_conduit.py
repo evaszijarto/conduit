@@ -43,12 +43,12 @@ def logged_in_user_site_from_home(browser):
     time.sleep(2)
 
 
-def list_of_datas_and_titles(browser):
-    article_titles = []
-    article_elements = WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
-    number_of_article = len(article_elements)
-    for article in article_elements:
-        article_titles.append(article.text)
+def list_of_datas_and_parameters(browser, list_name, webelements_name):
+    list_name = []
+    webelements_name = WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
+    number_of_article = len(webelements_name)
+    for article in webelements_name:
+        list_name.append(article.text)
     time.sleep(2)
 
 
@@ -61,8 +61,8 @@ def logged_in_user_site_from_article(browser):
     time.sleep(2)
 
 
-def create_more_articles(browser):
-    with open('./vizsgaremek/test/datas_for_page_turning_conduit.csv', 'r', encoding='UTF-8') as datas:
+def create_more_articles_from_file(browser, file_path):
+    with open(file_path, 'r', encoding='UTF-8') as datas:
         data_reader = csv.reader(datas, delimiter=';')
         for data in data_reader:
             btn_new_articel = WebDriverWait(browser, 5).until(
