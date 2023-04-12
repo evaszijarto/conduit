@@ -1,0 +1,305 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Apr 12 20:47:39 GMT 2023","Wed Apr 12 20:47:46 GMT 2023","7121","vizsgaremek.test","test_conduit","TestConduit","","","Új adat bevitel (blogbejegyzés) - Helyes adatokkal","
+    Teszteset leírás:
+    
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+    
+        Új blogbejegyzés menü megkeresése és megnyomása.
+        Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
+        Publikálás gomb megkeresése és megnyomása.
+        Az újonnan megjelenő oldalon a létrehozott blogbejegyzés adatainak megkeresése.
+        Új komment létrehozás gomb megkeresése.
+        Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 1-gyel 
+        történő növelése.
+    
+    Vizsgálatok leírása:
+    
+        - a létrehozott blogbejegyzés adatainak szövege megegyezik a külső forrásban lévő adatok szövegével
+        - új komment létrehozása gomb interaktárlható
+    "
+"passed","Wed Apr 12 20:49:57 GMT 2023","Wed Apr 12 20:51:15 GMT 2023","78063","vizsgaremek.test","test_conduit","TestConduit","","","Több oldalas lista bejárása (blogbejegyzések bejárása Home/Global feed oldalon)","
+    Teszteset leírás:
+
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - tömeges blogbejegyzés létrehozás külső adatforrásból
+            - Home oldalra navigálás
+            - felhasználói menübe navigálás (home oldalról)
+
+        A Home/Global feed menü alatt megjelennek a webhelyen a létrehozott blogbejegyzések szűrő 
+        használata nélkül.
+        A lapozásra vonatkozó összesítő webelement kikeresése.
+        Az összesítő utolsó elemének eltárolása egy függvényváltozóba. Ez adja meg az utolsó oldal 
+        számát.
+        Az oldlak számainak kikeresése a webhelyen.
+        For ciklusban: 
+            Az oldal lap számra kattintás.
+            Az aktív oldal class attribútumának kikeresése.
+        Függvényváltozóba rögzítésre kerül az oldalak számainak mennyisége.
+
+    Vizsgálatok leírása:
+
+        - For cikluson belül:
+            < A megkattintott oldal class attribútuma megegyezik a ""page-item active"" classal. 
+            < A következő oldal class attribútuma nem egyezik meg a ""page-item active"" classal.
+        - For ciklus után:
+            < Az oldalak számának mennyisége megegyezik a lapok összesítőjének utolsó értékével
+    "
+"passed","Wed Apr 12 20:47:29 GMT 2023","Wed Apr 12 20:47:32 GMT 2023","3453","vizsgaremek.test","test_conduit","TestConduit","","","Bejelentkezés - Helyes adatokkal","
+    Teszteset leírás:
+    
+        Másik modulból adatkezelési nyilatkozat elfogadása függvény behívása.
+        Bejelentkezési menü megkeresése és megnyomása.
+        Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
+        Bejelentkezés gomb megkeresése és megnyomása.
+        Bejelentkezett felhasználó menüpontjának megkeresése.
+        A bejelentkezést követően az újonnan megjelenő menüpontok megkeresése.
+    
+    Vizsgálatok leírása:
+    
+        - bejelentkezés gomb megnyomása előtt:
+            < a bejelentkezési gomb használható
+            < az input mezők nem üresek
+            < az input mezőkben azok az adatok szerepelnek, amik a külső adatforrásban is megjelennek
+    
+        - bejelentkezési gomb megnyomása után:
+            < megjelenik a felhasználói menüpont
+            < a felhasználói menüpont interaktálható
+            < a felhasználói menüpont szövege megegyezik a külső data forrásban szereplő szöveggel
+            < a megjelenő menüpontok szövegei megegyeznek a külső data forrásban szereplő szövegekkel
+    "
+"passed","Wed Apr 12 20:47:23 GMT 2023","Wed Apr 12 20:47:23 GMT 2023","70","vizsgaremek.test","test_conduit","TestConduit","","","Adatkezelési nyilatkozat elfogadása","
+    Teszteset leírás:
+   
+        Conduit weboldal adatkezelési nyilatkozat panelnek és az elfogadó gombnak a megkeresése. Majd a gomb 
+        megnyomása.
+   
+    Vizsgálat leírás:
+   
+        - a nyilatkozat elfogadása előtt:
+            < az adatkeezlési nyilatkozat panel az oldalon megjelenik és interaktálható
+            < a nyilatkozatot elfogadó gomb a panelen használható
+   
+        - a nyilatkozat elfogadása után: 
+            < az adatkezelési nyilatkozat panel nem jelenik meg, megkeresése hibát ad
+        "
+"passed","Wed Apr 12 20:49:10 GMT 2023","Wed Apr 12 20:49:48 GMT 2023","37684","vizsgaremek.test","test_conduit","TestConduit","","","Adatok lementése felületről (blogbejegyzések)","
+    Teszteset leírás:
+
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - felhasználói menübe navigálás (home oldalról)
+            - felhasználói menübe navigálás (blogbejegyzésből)
+            - lista feltöltése adatokkal
+
+        Üres liták létrehozása, amibe lementésre kerülnek a weboldalon szereplő felhasználó által készített 
+        bejegyzések különböző mezői.
+        Bejegyzések mezőinek kikeresése (cím, about, tag).
+        Felhasználóhoz tartozó cikkek számának meghatározsáa bejegyzés címek száma alapján.
+        Első for ciklusban: 
+            Az előzőekben létrehozott üres listák feltöltése adatokkal (cím, about, tag)
+        Második for ciklusban:
+            Az egyes bejegyzések teljes tartalmának megjelenítése.
+            A bejegyzésekben lévő szöveg mezők kikeresése és a szöveg mezőket tartalmazó lista feltöltése 
+            ezen adatokkal.
+            Majd a felhasználói menübe nevigálás.
+        Első ""with' metódusban:
+            Fájl létrehozása, amibe az előzőekben létrehozott listákból egy-egy sorba beírásra keülnek az 
+            egy bejegyzéshez tartozó adatok ;-vel elválasztva.
+        
+    Vizsgálatok leírása:
+
+        - második ""with"" metódusban:
+            < a létrehozott fájl pontosvesszővel elválasztott elemei megegyeznek a létrehozott listák 
+              megfelelő elemeivel
+
+        - harmadik ""with"" metódusban:
+            < a létrehozott fájl teljes tartalma megegyezik a korábbi ismételt és sorozatos adatbevitel 
+              adatforrásból tesztesetnél használt adatforrással
+    "
+"passed","Wed Apr 12 20:47:48 GMT 2023","Wed Apr 12 20:48:32 GMT 2023","44867","vizsgaremek.test","test_conduit","TestConduit","","","Ismételt és sorozatos adatbevitel adatforrásból (blogbejegyzések) - Helyes adatokkal","
+    Teszteset leírás:
+        
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - felhasználói menübe navigálás (blogbejegyzésből)
+        
+        Függvény válozó létrehozása a teszteset során létrehozott blogbejegyzések címének eltárolásához.
+        Külső adatforrás megnyitása
+        For ciklusban: 
+            Új blogbejegyzés menü megkeresése és megnyomása.
+            Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
+            Függvény változóhoz hozzáadásra kerül a létrehozott blogbejegyzés címe
+            Publikálás gomb megkeresése és megnyomása.
+            Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 
+            1-gyel történő növelése.
+            Az újonnan megjelenő oldalon a létrehozott blogbejegyzés adatainak megkeresése.
+            Új komment létrehozás gomb megkeresése.
+        Felhasználói menübe nevigálás.
+        Az oldalon a felhasználóhoz tartozó blogbejegyzések címeinek kikeresése.
+        A TC6-ban létrehozott blogbejegyzés címének hozzáadása a függvény változóhoz.
+    
+    Vizsgálatok leírása:
+    
+        - for cikluson belül:
+            < a létrehozott blogbejegyzés adatainak szövege megegyezik a külső forrásban lévő adatok 
+              szövegével
+            < új komment létrehozása gomb interaktárlható
+    
+        - for ciklus után:
+            < az oldalon a felhasználóhoz tartozó blogbejegyzések címeinek száma megegyezik a felhasználó 
+              által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
+            < a függvény változóban eltárolt blogbejegyzés címek lista elemei szerepelnek a felhasználói 
+              menüpont alatt megjelenő felhasználóhoz tartozó bejegyzések címeinek listájában
+    "
+"passed","Wed Apr 12 20:48:34 GMT 2023","Wed Apr 12 20:48:51 GMT 2023","17044","vizsgaremek.test","test_conduit","TestConduit","","","Meglévő adat módosítás (blogbejegyzés About mező","
+    Teszteset leírás:
+    
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - felhasználói menübe navigálás (home oldalról)
+            - felhasználói menübe navigálás (blogbejegyzésből)
+            
+        Módosítani kívánt blogbejegyzés megkeresése (külső adatforrás segítségévle) és megjelenítése.
+        Blogbejegyzés módosítása gomb megkeresése és megnyomása
+        Bejegyzés About mezőjének megkeresése, tartalmának törlése és külső adatforrásból az új értékkel 
+        történő kitöltése.
+        Publikálás gomb megkeresése és megnyomása.
+        Felhasználói menübe navigálás
+        A módosított bejegyzés címének a formátumának az átalakítása.
+        Az átalakított cím segítségével a módosított blogbejegyzés About mezőjének kikeresése.
+    
+    Vizsgálatok leírása:
+    
+        - a módosított bejegyzés About mezőjének jelenlegi értéke nem egyezik meg a külső adatforrásban 
+          szereplő eredeti About mező szöveg értékével
+        - a módosított bejegyzés About mezőjének jelenlegi értéke megegyezik a külső adatforrásban szereplő 
+          módosított About mező szöveg értékével
+    "
+"passed","Wed Apr 12 20:47:21 GMT 2023","Wed Apr 12 20:47:22 GMT 2023","70","vizsgaremek.test","test_conduit","TestConduit","","","Oldal megnyitása","
+    Teszteset leírás:
+    
+        Conduit weboldal megnyitása.
+    
+    Vizsgálat leírás:
+    
+        - az oldalon a weboldal neve megjelenik
+        - az oldalon a weboldal logoja megjelenik
+        - az oldalon a weboldal neve conduit
+        - az oldalon a weboldal logojának a szövege conduit
+    "
+"passed","Wed Apr 12 20:47:33 GMT 2023","Wed Apr 12 20:47:38 GMT 2023","4521","vizsgaremek.test","test_conduit","TestConduit","","","Kijelentkezés - Helyes adatokkal","
+    Teszteset leírás:
+    
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+    
+        Kijelentkezési menü megkeresése és megnyomása.
+        A kijelentkezést követően az újonnan megjelenő menüpontok megkeresése.
+    
+    Vizsgálatok leírása:
+    
+        - az oldalon a weboldal neve megjelenik
+        - az oldalon a weboldal logoja megjelenik
+        - az oldalon a weboldal neve conduit
+        - az oldalon a weboldal logojának a szövege conduit
+        - a megjelenő menüpontok szövegei megegyeznek a külső data forrásban szereplő szövegekkel
+    "
+"passed","Wed Apr 12 20:47:24 GMT 2023","Wed Apr 12 20:47:28 GMT 2023","3542","vizsgaremek.test","test_conduit","TestConduit","","","Regisztráció - Helyes adatokkal","
+    Teszteset leírás:
+    
+        Másik modulból adatkezelési nyilatkozat elfogadása függvény behívása.
+        Regisztráció menü megkeresése és megnyomása.
+        Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
+        Regisztráció gomb megkeresése és megnyomása.
+        Megjelenő válaszpanel üzenetének és ok gombjának megkeresése. Majd gomb megnyomása.
+    
+    Vizsgálatok leírása:
+        
+        - regisztráció gomb megnyomása előtt:
+            < az input mezők nem üresek
+            < az input mezőkben azok az adatok szerepelnek, amik a külső adatforrásban is megjelennek
+        
+        - regisztráció gomb megnyomása után:
+            < a kapott válasz üzenet szövegének ellenőrzése
+            < a válaszüzeneten lévő ok gomb interaktálható    
+    "
+"passed","Wed Apr 12 20:49:49 GMT 2023","Wed Apr 12 20:49:56 GMT 2023","6728","vizsgaremek.test","test_conduit","TestConduit","","","Adatok listázása (adott felhasználó által létrehozott blogbejegyzések)","
+    Teszteset leírás:
+
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - felhasználói menübe navigálás (home oldalról)
+
+        A bejelentkezést követő oldalon megjelenő összes cikk szerző elemének kikeresése.
+        Egy függvényváltozó létrehozása, melyben a bejelentkezett felhasználó által készített cikkek 
+        száma kerül eltárolásra.
+        Első for ciklusban: 
+            Ha a vizsgált szerző text adata megegyezik a bejelentkezett felhasználó username adatával, 
+            akkor a létrehozott függvényváltozó értéke megnövekszik 1-gyel
+        Felhasználói menübe navigálás. 
+        Megjelennek a felhasználó által készített cikkek listája.
+        A megjelent cikkek szerző adatainak kikeresése.
+        A megjelent cikkek cím adatainak megkeresése.
+
+    Vizsgálatok leírása:
+
+        - A felhasználói menüben megjelenő cikkek szerző adatainak száma megegyezik az ezen az oldalon 
+          szereplő cikk címek számával.
+        - A felhasználói menüben megjelenő cikkek szerző adatainak száma megegyezik a korábban 
+          létrehozott függvényváltozó (bejelentkezett felhasználó által készített cikkek száma a 
+          nyitóoldalon, szűrés nélkül) értékével
+        - A felhasználói menüben megjelenő cikkek szerző adatainak száma megegyezik a felhasználó 
+          által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
+    "
+"passed","Wed Apr 12 20:48:52 GMT 2023","Wed Apr 12 20:49:09 GMT 2023","16914","vizsgaremek.test","test_conduit","TestConduit","","","Adat vagy adatok törlése (blogbejegyzés)","
+    Teszteset leírás:
+    
+        Másik modulból meghívott függvények: 
+            - adatkezelési nyilatkozat elfogadása
+            - bejelentkezés megadott felhasználóval
+            - felhasználói menübe navigálás (home oldalról)
+            - lista feltöltése adatokkal
+    
+        Függvény válozó létrehozása a törlés előtt meglévő felhasználóhoz taroztó blogbejegyzések címének 
+        eltárolásához.
+        A felhasználóhoz tartozó bejegyzések címeinek kikeresése.
+        A címek számának eltárolása egy függvény vátlozóba.
+        For ciklus segítségével a törlsé előtti start állapot szerinti bejegyzés címek tárolására létrehozott 
+        függvény változó feltöltése.
+        Törölni kívánt blogbejegyzés megkeresése (külső adatforrás segítségévle) és megjelenítése.
+        Blogbejegyzés törlése gomb megkeresése és megnyomása
+        Felhasználó által létrehozott blogbejegyzések számolásához létrehozott osztályváltozó értékének 1-gyel 
+        történő csökkentése.
+        Felhasználói menübe navigálás
+        Függvény válozó létrehozása a törlés utáni felhasználóhoz taroztó blogbejegyzések címének 
+        eltárolásához.
+        A törlés után a felhasználóhoz tartozó bejegyzések címeinek kikeresése.
+        A törlés után a címek számának eltárolása egy függvény változóba.
+        For ciklus segítségével a törlsé utáni állapot szerinti bejegyzés címek tárolására létrehozott 
+        függvény változó feltöltése.
+        
+    Vizsgálatok leírása:
+    
+        - törlés előtt:
+            < az oldalon a felhasználóhoz tartozó blogbejegyzések címeinek száma megegyezik a felhasználó 
+              által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
+            < a függvény változóban eltárolt blogbejegyzés címek lista elemei szerepelnek a felhasználói m
+              enüpont alatt megjelenő felhasználóhoz tartozó bejegyzések címeinek listájában
+    
+        - törlés után:
+            < a törlés utáni felhasználóhoz taroztó cikkek száma megegyezik a törlés előtti felhasználóhoz 
+              tartozó cikkek számának eggyel csökkentett értékével
+            < a törlés utáni felhasználóhoz taroztó cikkek száma megegyezik a felhasználó által létrehozott 
+              blogbejegyzések osztályváltozóban tárolt értékével
+            < törölt blogbejegyzés címe nem szerepel a törlés utáni felhasználóhoz tartozó cikkek címének 
+              listájában
+    "
