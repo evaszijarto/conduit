@@ -90,3 +90,7 @@ def go_home(browser):
     btn_menu_home = \
     WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[0]
     btn_menu_home.click()
+
+def list_upload(webelements_name, list_name):
+    for article in webelements_name:
+        list_name.append(article.text)
