@@ -1,18 +1,10 @@
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.relative_locator import locate_with
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from datetime import datetime, date, time, timezone
-
+from datetime import time
 import time
 import csv
-from data_conduit import sign_up_user, login_user
+from data_conduit import sign_up_user
 
 
 def independent_cookies_accept(browser):
@@ -36,25 +28,16 @@ def independent_login(browser):
 
 def logged_in_user_site_from_home(browser):
     btn_menu_logged_in_user = \
-    WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
+        WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[2]
     btn_menu_logged_in_user.click()
     time.sleep(2)
     browser.refresh()
     time.sleep(2)
 
 
-def list_of_datas_and_parameters(browser, list_name, webelements_name):
-    list_name = []
-    webelements_name = WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
-    number_of_article = len(webelements_name)
-    for article in webelements_name:
-        list_name.append(article.text)
-    time.sleep(2)
-
-
 def logged_in_user_site_from_article(browser):
     btn_menu_logged_in_user = \
-    WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
+        WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[3]
     btn_menu_logged_in_user.click()
     time.sleep(2)
     browser.refresh()
@@ -88,8 +71,9 @@ def create_more_articles_from_file(browser, file_path):
 
 def go_home(browser):
     btn_menu_home = \
-    WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[0]
+        WebDriverWait(browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[0]
     btn_menu_home.click()
+
 
 def list_upload(webelements_name, list_name):
     for article in webelements_name:

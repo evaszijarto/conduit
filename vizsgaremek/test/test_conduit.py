@@ -9,12 +9,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 from datetime import time
 import allure
 import csv
-
 import time
+
 from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
     new_article_data, update_article_data
 from module_conduit import independent_cookies_accept, independent_login, logged_in_user_site_from_home, \
-    list_of_datas_and_parameters, logged_in_user_site_from_article, create_more_articles_from_file, go_home, list_upload
+    logged_in_user_site_from_article, create_more_articles_from_file, go_home, list_upload
 
 
 class TestConduit(object):
@@ -508,8 +508,6 @@ class TestConduit(object):
         start_article_elements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.XPATH, '//h1')))
         start_number_of_article = len(start_article_elements)
-        # for article in start_article_elements:
-        #     start_article_titles.append(article.text)
         list_upload(start_article_elements, start_article_titles)
         assert start_number_of_article == TestConduit.article_counter
         assert new_article_data["article_title"] in start_article_titles
@@ -531,8 +529,6 @@ class TestConduit(object):
             EC.presence_of_all_elements_located((By.XPATH, '//h1')))
         after_delete_number_of_article = len(after_delete_article_elements)
         after_delete_article_titles = []
-        # for article in after_delete_article_elements:
-        #     after_delete_article_titles.append(article.text)
         list_upload(after_delete_article_elements, after_delete_article_titles)
         assert after_delete_number_of_article == start_number_of_article - 1
         assert after_delete_number_of_article == TestConduit.article_counter
@@ -593,13 +589,6 @@ class TestConduit(object):
         list_upload(article_webelements, article_titles)
         list_upload(article_tag_webelements, article_tags)
         list_upload(article_about_webelements[1:], article_abouts)
-        # p = 1
-        # n = 0
-        # for article in article_webelements:
-        #     article_titles.append(article.text)
-        #     article_abouts.append(article_about_webelements[p].text)
-        #     p += 1
-        #     article_tags.append(article_tag_webelements[n].text)
 
         for n in range(number_of_article):
             article_webelements = WebDriverWait(self.browser, 5).until(
@@ -725,7 +714,8 @@ class TestConduit(object):
     def test_data_page_turning(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
-        create_more_articles_from_file(self.browser, './vizsgaremek/test/datas_for_page_turning_conduit.csv')  # pycharm futtatásnál ki kell venni
+        create_more_articles_from_file(self.browser,
+                                       './vizsgaremek/test/datas_for_page_turning_conduit.csv')  # pycharm futtatásnál ki kell venni
         go_home(self.browser)  # pycharm futtatásnál ki kell venni
 
         pagination_webelement = WebDriverWait(self.browser, 5).until(
