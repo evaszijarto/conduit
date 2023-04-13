@@ -134,7 +134,7 @@ class TestConduit(object):
         assert input_password.get_attribute('value') == sign_up_user['password']
 
         btn_func_sign_up.click()
-        time.sleep(3)
+        time.sleep(2)
         message_ok = WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class="swal-text"]')))
         assert message_ok.text == 'Your registration was successful!'
@@ -186,7 +186,7 @@ class TestConduit(object):
         assert input_password.get_attribute('value') == sign_up_user['password']
 
         btn_func_login.click()
-        time.sleep(3)
+        time.sleep(2)
         btn_menu_logged_in_user = \
             WebDriverWait(self.browser, 5).until(
                 EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[

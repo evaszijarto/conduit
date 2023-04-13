@@ -54,14 +54,17 @@ def create_more_articles_from_file(browser, file_path):
 
 
 def btn_new_articel(browser):
-    btn_new_articel = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
+    btn_new_articel = WebDriverWait(browser, 5).until(
+        EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
     btn_new_articel.click()
     time.sleep(1)
+
 
 def btn_publish(browser):
     btn_publish = browser.find_element(By.XPATH, '//button[@type="submit"]')
     btn_publish.click()
     time.sleep(1)
+
 
 def input_new_article(browser, input_title, input_about, input_field, input_tag):
     input_article_title = WebDriverWait(browser, 5).until(
@@ -74,6 +77,7 @@ def input_new_article(browser, input_title, input_about, input_field, input_tag)
     input_article_about.send_keys(input_about)
     input_article.send_keys(input_field)
     input_article_tag.send_keys(input_tag)
+
 
 def go_home(browser):
     btn_menu_home = \
