@@ -229,9 +229,8 @@ class TestConduit(object):
                 EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
                 3]
         btn_menu_log_out.click()
-        # time.sleep(2)
+        time.sleep(2)
 
-        # page_name = self.browser.find_element(By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
         page_name = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located(
             (By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')))
         logo_name = self.browser.find_element(By.XPATH, '//h1[@class="logo-font"]')
@@ -254,6 +253,9 @@ class TestConduit(object):
         Másik modulból meghívott függvények: 
             - adatkezelési nyilatkozat elfogadása
             - bejelentkezés megadott felhasználóval
+            - új cikk létrehozása menü megkeresése és átnavigálás
+            - új cikk adatainak kitöltése
+            - cikk publikálása
     
         Új blogbejegyzés menü megkeresése és megnyomása.
         Input mezők megkeresése és külső data fájlból adatokkal történő kitöltése.
@@ -271,27 +273,9 @@ class TestConduit(object):
     def test_data_creation(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
-
-        # btn_new_articel = WebDriverWait(self.browser, 5).until(
-        #     EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
-        # btn_new_articel.click()
-        # time.sleep(2)
         btn_new_articel(self.browser)
-
-        # input_article_title = WebDriverWait(self.browser, 5).until(
-        #     EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
-        # input_article_title.send_keys(new_article_data["article_title"])
-        # input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
-        # input_article_about.send_keys(new_article_data["article_about"])
-        # input_article = self.browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
-        # input_article.send_keys(new_article_data["article"])
-        # input_article_tag = self.browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
-        # input_article_tag.send_keys(new_article_data["article_tags"])
-        input_new_article(self.browser, new_article_data["article_title"], new_article_data["article_about", new_article_data["article"], new_article_data["article_tags"]])
-
-        # btn_publish = self.browser.find_element(By.XPATH, '//button[@type="submit"]')
-        # btn_publish.click()
-        # time.sleep(2)
+        input_new_article(self.browser, new_article_data["article_title"], new_article_data["article_about"],
+                          new_article_data["article"], new_article_data["article_tags"])
         btn_publish(self.browser)
 
         actual_article_title = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
@@ -317,6 +301,9 @@ class TestConduit(object):
             - adatkezelési nyilatkozat elfogadása
             - bejelentkezés megadott felhasználóval
             - felhasználói menübe navigálás (blogbejegyzésből)
+            - új cikk létrehozása menü megkeresése és átnavigálás
+            - új cikk adatainak kitöltése
+            - cikk publikálása
         
         Függvény válozó létrehozása a teszteset során létrehozott blogbejegyzések címének eltárolásához.
         Külső adatforrás megnyitása
@@ -355,22 +342,10 @@ class TestConduit(object):
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
                 btn_new_articel(self.browser)
-
-                # input_article_title = WebDriverWait(self.browser, 5).until(
-                #     EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
-                # input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
-                # input_article = self.browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
-                # input_article_tag = self.browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
-                #
-                # input_article_title.send_keys(data[0])
-                # input_article_about.send_keys(data[1])
-                # input_article.send_keys(data[2])
-                # input_article_tag.send_keys(data[3])
                 input_new_article(self.browser, data[0], data[1], data[2], data[3])
+                btn_publish(self.browser)
 
                 input_article_titles.append(data[0])
-
-                btn_publish(self.browser)
 
                 TestConduit.article_counter += 1
 
@@ -392,7 +367,7 @@ class TestConduit(object):
         actual_article_elements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.TAG_NAME, "h1")))
         assert len(actual_article_elements) == TestConduit.article_counter
-        input_article_titles.append(new_article_data["article_title"])  # github actionhöz kell
+        input_article_titles.append(new_article_data["article_title"])
         for article in actual_article_elements:
             assert article.text in input_article_titles
 
@@ -406,6 +381,7 @@ class TestConduit(object):
             - bejelentkezés megadott felhasználóval
             - felhasználói menübe navigálás (home oldalról)
             - felhasználói menübe navigálás (blogbejegyzésből)
+            - cikk publikálása
             
         Módosítani kívánt blogbejegyzés megkeresése (külső adatforrás segítségévle) és megjelenítése.
         Blogbejegyzés módosítása gomb megkeresése és megnyomása
@@ -427,6 +403,7 @@ class TestConduit(object):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
         logged_in_user_site_from_home(self.browser)
+        time.sleep(2)
 
         update_article = WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.XPATH, f'//h1[text()="{new_article_data["article_title"]}"]')))
@@ -441,9 +418,7 @@ class TestConduit(object):
         input_article_about.clear()
         input_article_about.send_keys(update_article_data["article_about"])
 
-        btn_publish = self.browser.find_element(By.XPATH, '//button[@type="submit"]')
-        btn_publish.click()
-        time.sleep(2)
+        btn_publish(self.browser)
 
         logged_in_user_site_from_article(self.browser)
 
