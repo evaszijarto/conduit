@@ -7,13 +7,13 @@ import csv
 from data_conduit import sign_up_user
 
 
-def independent_cookies_accept(browser):
+def accept_cookies(browser):
     btn_cookies_accept = browser.find_element(By.XPATH,
                                               '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
     btn_cookies_accept.click()
 
 
-def independent_login(browser):
+def sign_in(browser):
     btn_menu_login = browser.find_element(By.XPATH, '//a[@href="#/login"]')
     btn_menu_login.click()
     input_email = browser.find_element(By.XPATH, '//input[@placeholder="Email"]')
@@ -85,6 +85,6 @@ def go_home(browser):
     btn_menu_home.click()
 
 
-def list_upload(webelements_name, list_name):
+def upload_list(webelements_name, list_name):
     for article in webelements_name:
         list_name.append(article.text)

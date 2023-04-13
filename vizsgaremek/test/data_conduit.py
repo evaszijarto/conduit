@@ -1,3 +1,5 @@
+site_name = "conduit"
+
 sign_up_user = {
     'username': 'conduit_test_user_01',
     'email': '@conduit_test_user_01.com',

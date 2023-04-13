@@ -11,11 +11,10 @@ import allure
 import csv
 import time
 
-from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
+from data_conduit import site_name, sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
     new_article_data, update_article_data
-from module_conduit import independent_cookies_accept, independent_login, logged_in_user_site_from_home, \
-    logged_in_user_site_from_article, create_more_articles_from_file, go_home, list_upload, btn_publish, \
-    btn_new_articel, input_new_article
+from module_conduit import accept_cookies, sign_in, logged_in_user_site_from_home, logged_in_user_site_from_article, \
+    create_more_articles_from_file, go_home, upload_list, btn_publish, btn_new_articel, input_new_article
 
 
 class TestConduit(object):
@@ -51,14 +50,14 @@ class TestConduit(object):
         - az oldalon a weboldal neve conduit
         - az oldalon a weboldal logojának a szövege conduit
     ''')
-    def test_open(self):
+    def test_open_site(self):
         page_name = self.browser.find_element(By.XPATH,
                                               '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
         logo_name = self.browser.find_element(By.XPATH, '//h1[@class="logo-font"]')
         assert page_name.is_displayed()
         assert logo_name.is_displayed()
-        assert page_name.text == "conduit"
-        assert logo_name.text == "conduit"
+        assert page_name.text == site_name
+        assert logo_name.text == site_name
 
     @allure.id('TC2')
     @allure.title('Adatkezelési nyilatkozat elfogadása')
@@ -77,7 +76,7 @@ class TestConduit(object):
         - a nyilatkozat elfogadása után: 
             < az adatkezelési nyilatkozat panel nem jelenik meg, megkeresése hibát ad
         ''')
-    def test_cookies_accept(self):
+    def test_accept_cookies(self):
         cookie_policy_panel = self.browser.find_element(By.ID, 'cookie-policy-panel')
         btn_cookies_accept = self.browser.find_element(By.XPATH,
                                                        '//button[@class="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
@@ -112,7 +111,7 @@ class TestConduit(object):
             < a válaszüzeneten lévő ok gomb interaktálható    
     ''')
     def test_sign_up(self):
-        independent_cookies_accept(self.browser)
+        accept_cookies(self.browser)
 
         btn_menu_sign_up = self.browser.find_element(By.XPATH, '//a[@href="#/register"]')
         btn_menu_sign_up.click()
@@ -167,8 +166,8 @@ class TestConduit(object):
             < a felhasználói menüpont szövege megegyezik a külső data forrásban szereplő szöveggel
             < a megjelenő menüpontok szövegei megegyeznek a külső data forrásban szereplő szövegekkel
     ''')
-    def test_login(self):
-        independent_cookies_accept(self.browser)
+    def test_sign_in(self):
+        accept_cookies(self.browser)
 
         btn_menu_login = self.browser.find_element(By.XPATH, '//a[@href="#/login"]')
         btn_menu_login.click()
@@ -221,8 +220,8 @@ class TestConduit(object):
         - a megjelenő menüpontok szövegei megegyeznek a külső data forrásban szereplő szövegekkel
     ''')
     def test_log_out(self):
-        independent_cookies_accept(self.browser)
-        independent_login(self.browser)
+        accept_cookies(self.browser)
+        sign_in(self.browser)
 
         btn_menu_log_out = \
             WebDriverWait(self.browser, 5).until(
@@ -236,8 +235,8 @@ class TestConduit(object):
         logo_name = self.browser.find_element(By.XPATH, '//h1[@class="logo-font"]')
         assert page_name.is_displayed()
         assert logo_name.is_displayed()
-        assert page_name.text == "conduit"
-        assert logo_name.text == "conduit"
+        assert page_name.text == site_name
+        assert logo_name.text == site_name
 
         btns_menu_logged_out = self.browser.find_elements(By.XPATH, '//li[@class="nav-item"]')
         n = 0
@@ -270,9 +269,9 @@ class TestConduit(object):
         - a létrehozott blogbejegyzés adatainak szövege megegyezik a külső forrásban lévő adatok szövegével
         - új komment létrehozása gomb interaktárlható
     ''')
-    def test_data_creation(self):
-        independent_cookies_accept(self.browser)
-        independent_login(self.browser)
+    def test_creat_data(self):
+        accept_cookies(self.browser)
+        sign_in(self.browser)
         btn_new_articel(self.browser)
         input_new_article(self.browser, new_article_data["article_title"], new_article_data["article_about"],
                           new_article_data["article"], new_article_data["article_tags"])
@@ -334,8 +333,8 @@ class TestConduit(object):
               menüpont alatt megjelenő felhasználóhoz tartozó bejegyzések címeinek listájában
     ''')
     def test_import_datas_from_file(self):
-        independent_cookies_accept(self.browser)
-        independent_login(self.browser)
+        accept_cookies(self.browser)
+        sign_in(self.browser)
 
         input_article_titles = []
         with open('./vizsgaremek/test/datas_for_conduit.csv', 'r', encoding='UTF-8') as datas:
@@ -399,9 +398,9 @@ class TestConduit(object):
         - a módosított bejegyzés About mezőjének jelenlegi értéke megegyezik a külső adatforrásban szereplő 
           módosított About mező szöveg értékével
     ''')
-    def test_data_update(self):
-        independent_cookies_accept(self.browser)
-        independent_login(self.browser)
+    def test_update_data(self):
+        accept_cookies(self.browser)
+        sign_in(self.browser)
         logged_in_user_site_from_home(self.browser)
         time.sleep(2)
 
@@ -476,15 +475,15 @@ class TestConduit(object):
               listájában
     ''')
     def test_delete_data(self):
-        independent_cookies_accept(self.browser)
-        independent_login(self.browser)
+        accept_cookies(self.browser)
+        sign_in(self.browser)
         logged_in_user_site_from_home(self.browser)
 
         start_article_titles = []
         start_article_elements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.XPATH, '//h1')))
         start_number_of_article = len(start_article_elements)
-        list_upload(start_article_elements, start_article_titles)
+        upload_list(start_article_elements, start_article_titles)
         assert start_number_of_article == TestConduit.article_counter
         assert new_article_data["article_title"] in start_article_titles
         delete_article = WebDriverWait(self.browser, 5).until(
@@ -505,7 +504,7 @@ class TestConduit(object):
             EC.presence_of_all_elements_located((By.XPATH, '//h1')))
         after_delete_number_of_article = len(after_delete_article_elements)
         after_delete_article_titles = []
-        list_upload(after_delete_article_elements, after_delete_article_titles)
+        upload_list(after_delete_article_elements, after_delete_article_titles)
         assert after_delete_number_of_article == start_number_of_article - 1
         assert after_delete_number_of_article == TestConduit.article_counter
         assert not new_article_data["article_title"] in after_delete_article_titles
@@ -547,9 +546,9 @@ class TestConduit(object):
             < a létrehozott fájl teljes tartalma megegyezik a korábbi ismételt és sorozatos adatbevitel 
               adatforrásból tesztesetnél használt adatforrással
     ''')
-    def test_save_data_from_site(self):
-        independent_cookies_accept(self.browser)
-        independent_login(self.browser)
+    def test_save_datas_from_site(self):
+        accept_cookies(self.browser)
+        sign_in(self.browser)
         logged_in_user_site_from_home(self.browser)
 
         article_titles = []
@@ -562,9 +561,9 @@ class TestConduit(object):
         article_about_webelements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.XPATH, '//p')))
         article_tag_webelements = self.browser.find_elements(By.XPATH, '//div[@class="tag-list"]')
-        list_upload(article_webelements, article_titles)
-        list_upload(article_tag_webelements, article_tags)
-        list_upload(article_about_webelements[1:], article_abouts)
+        upload_list(article_webelements, article_titles)
+        upload_list(article_tag_webelements, article_tags)
+        upload_list(article_about_webelements[1:], article_abouts)
 
         for n in range(number_of_article):
             article_webelements = WebDriverWait(self.browser, 5).until(
@@ -636,9 +635,9 @@ class TestConduit(object):
         - A felhasználói menüben megjelenő cikkek szerző adatainak száma megegyezik a felhasználó 
           által létrehozott blogbejegyzések osztályváltozóban tárolt értékével
     ''')
-    def test_data_listing(self):
-        independent_cookies_accept(self.browser)
-        independent_login(self.browser)
+    def test_list_datas(self):
+        accept_cookies(self.browser)
+        sign_in(self.browser)
 
         start_article_author_elements = WebDriverWait(self.browser, 5).until(
             EC.presence_of_all_elements_located((By.XPATH, '//a[@class="author"]')))
@@ -685,9 +684,9 @@ class TestConduit(object):
         - For ciklus után:
             < Az oldalak számának mennyisége megegyezik a lapok összesítőjének utolsó értékével
     ''')
-    def test_data_page_turning(self):
-        independent_cookies_accept(self.browser)
-        independent_login(self.browser)
+    def test_turn_pages(self):
+        accept_cookies(self.browser)
+        sign_in(self.browser)
         create_more_articles_from_file(self.browser, './vizsgaremek/test/datas_for_page_turning_conduit.csv')
         go_home(self.browser)
 
