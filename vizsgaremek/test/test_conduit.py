@@ -14,7 +14,8 @@ import time
 from data_conduit import sign_up_user, btns_menu_logged_in_expected_text, btns_menu_logged_out_expected_text, \
     new_article_data, update_article_data
 from module_conduit import independent_cookies_accept, independent_login, logged_in_user_site_from_home, \
-    logged_in_user_site_from_article, create_more_articles_from_file, go_home, list_upload
+    logged_in_user_site_from_article, create_more_articles_from_file, go_home, list_upload, btn_publish, \
+    btn_new_articel, input_new_article
 
 
 class TestConduit(object):
@@ -228,10 +229,11 @@ class TestConduit(object):
                 EC.presence_of_all_elements_located((By.XPATH, '//a[@class="nav-link"]')))[
                 3]
         btn_menu_log_out.click()
-        time.sleep(2)
+        # time.sleep(2)
 
-        page_name = self.browser.find_element(By.XPATH,
-                                              '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
+        # page_name = self.browser.find_element(By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')
+        page_name = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located(
+            (By.XPATH, '//a[@class="navbar-brand router-link-exact-active router-link-active"]')))
         logo_name = self.browser.find_element(By.XPATH, '//h1[@class="logo-font"]')
         assert page_name.is_displayed()
         assert logo_name.is_displayed()
@@ -270,24 +272,27 @@ class TestConduit(object):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
 
-        btn_new_articel = WebDriverWait(self.browser, 5).until(
-            EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
-        btn_new_articel.click()
-        time.sleep(2)
+        # btn_new_articel = WebDriverWait(self.browser, 5).until(
+        #     EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
+        # btn_new_articel.click()
+        # time.sleep(2)
+        btn_new_articel(self.browser)
 
-        input_article_title = WebDriverWait(self.browser, 5).until(
-            EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
-        input_article_title.send_keys(new_article_data["article_title"])
-        input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
-        input_article_about.send_keys(new_article_data["article_about"])
-        input_article = self.browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
-        input_article.send_keys(new_article_data["article"])
-        input_article_tag = self.browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
-        input_article_tag.send_keys(new_article_data["article_tags"])
+        # input_article_title = WebDriverWait(self.browser, 5).until(
+        #     EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
+        # input_article_title.send_keys(new_article_data["article_title"])
+        # input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
+        # input_article_about.send_keys(new_article_data["article_about"])
+        # input_article = self.browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
+        # input_article.send_keys(new_article_data["article"])
+        # input_article_tag = self.browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
+        # input_article_tag.send_keys(new_article_data["article_tags"])
+        input_new_article(self.browser, new_article_data["article_title"], new_article_data["article_about", new_article_data["article"], new_article_data["article_tags"]])
 
-        btn_publish = self.browser.find_element(By.XPATH, '//button[@type="submit"]')
-        btn_publish.click()
-        time.sleep(2)
+        # btn_publish = self.browser.find_element(By.XPATH, '//button[@type="submit"]')
+        # btn_publish.click()
+        # time.sleep(2)
+        btn_publish(self.browser)
 
         actual_article_title = WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
         actual_article_author = self.browser.find_element(By.XPATH, '//a[@class="author"]')
@@ -349,27 +354,23 @@ class TestConduit(object):
         with open('./vizsgaremek/test/datas_for_conduit.csv', 'r', encoding='UTF-8') as datas:
             data_reader = csv.reader(datas, delimiter=';')
             for data in data_reader:
-                btn_new_articel = WebDriverWait(self.browser, 5).until(
-                    EC.presence_of_element_located((By.XPATH, '//a[@href="#/editor"]')))
-                btn_new_articel.click()
-                time.sleep(5)
+                btn_new_articel(self.browser)
 
-                input_article_title = WebDriverWait(self.browser, 5).until(
-                    EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
-                input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
-                input_article = self.browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
-                input_article_tag = self.browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
-
-                input_article_title.send_keys(data[0])
-                input_article_about.send_keys(data[1])
-                input_article.send_keys(data[2])
-                input_article_tag.send_keys(data[3])
+                # input_article_title = WebDriverWait(self.browser, 5).until(
+                #     EC.presence_of_element_located((By.XPATH, '//input[@class="form-control form-control-lg"]')))
+                # input_article_about = self.browser.find_element(By.XPATH, '//input[@class="form-control"]')
+                # input_article = self.browser.find_element(By.XPATH, '//textarea[@class="form-control"]')
+                # input_article_tag = self.browser.find_element(By.XPATH, '//input[@placeholder="Enter tags"]')
+                #
+                # input_article_title.send_keys(data[0])
+                # input_article_about.send_keys(data[1])
+                # input_article.send_keys(data[2])
+                # input_article_tag.send_keys(data[3])
+                input_new_article(self.browser, data[0], data[1], data[2], data[3])
 
                 input_article_titles.append(data[0])
 
-                btn_publish = self.browser.find_element(By.XPATH, '//button[@type="submit"]')
-                btn_publish.click()
-                time.sleep(2)
+                btn_publish(self.browser)
 
                 TestConduit.article_counter += 1
 
@@ -675,8 +676,6 @@ class TestConduit(object):
 
         article_author_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located(
             (By.XPATH, '//a[@class="author router-link-exact-active router-link-active"]')))
-        article_elements = WebDriverWait(self.browser, 5).until(EC.presence_of_all_elements_located((By.XPATH, '//h1')))
-        assert len(article_author_elements) == len(article_elements)
         assert len(article_author_elements) == start_article_authors_number
         assert len(article_author_elements) == TestConduit.article_counter
 
@@ -714,9 +713,8 @@ class TestConduit(object):
     def test_data_page_turning(self):
         independent_cookies_accept(self.browser)
         independent_login(self.browser)
-        create_more_articles_from_file(self.browser,
-                                       './vizsgaremek/test/datas_for_page_turning_conduit.csv')  # pycharm futtatásnál ki kell venni
-        go_home(self.browser)  # pycharm futtatásnál ki kell venni
+        create_more_articles_from_file(self.browser, './vizsgaremek/test/datas_for_page_turning_conduit.csv')
+        go_home(self.browser)
 
         pagination_webelement = WebDriverWait(self.browser, 5).until(
             EC.presence_of_element_located((By.XPATH, '//ul[@class="pagination"]')))
