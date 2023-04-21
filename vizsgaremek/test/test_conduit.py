@@ -36,7 +36,7 @@ class TestConduit(object):
     def teardown_method(self):
         self.browser.quit()
 
-    @allure.id('TC1')
+    @allure.id('CON_ATC_001')
     @allure.title('Oldal megnyitása')
     @allure.description('''
     Teszteset leírás:
@@ -59,7 +59,7 @@ class TestConduit(object):
         assert page_name.text == site_name
         assert logo_name.text == site_name
 
-    @allure.id('TC2')
+    @allure.id('CON_ATC_002')
     @allure.title('Adatkezelési nyilatkozat elfogadása')
     @allure.description('''
     Teszteset leírás:
@@ -89,7 +89,7 @@ class TestConduit(object):
         except Exception as e_info:
             assert True
 
-    @allure.id('TC3')
+    @allure.id('CON_ATC_003')
     @allure.title('Regisztráció - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
@@ -141,7 +141,7 @@ class TestConduit(object):
         assert btn_ok_sign_up.is_enabled()
         btn_ok_sign_up.click()
 
-    @allure.id('TC4')
+    @allure.id('CON_ATC_004')
     @allure.title('Bejelentkezés - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
@@ -199,7 +199,7 @@ class TestConduit(object):
             assert btn.text == btns_menu_logged_in_expected_text[n]
             n += 1
 
-    @allure.id('TC5')
+    @allure.id('CON_ATC_005')
     @allure.title('Kijelentkezés - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
@@ -244,7 +244,7 @@ class TestConduit(object):
             assert btn.text == btns_menu_logged_out_expected_text[n]
             n += 1
 
-    @allure.id('TC6')
+    @allure.id('CON_ATC_006')
     @allure.title('Új adat bevitel (blogbejegyzés) - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
@@ -291,7 +291,7 @@ class TestConduit(object):
 
         TestConduit.article_counter += 1
 
-    @allure.id('TC7')
+    @allure.id('CON_ATC_007')
     @allure.title('Ismételt és sorozatos adatbevitel adatforrásból (blogbejegyzések) - Helyes adatokkal')
     @allure.description('''
     Teszteset leírás:
@@ -370,7 +370,7 @@ class TestConduit(object):
         for article in actual_article_elements:
             assert article.text in input_article_titles
 
-    @allure.id('TC8')
+    @allure.id('CON_ATC_008')
     @allure.title('Meglévő adat módosítás (blogbejegyzés About mező')
     @allure.description('''
     Teszteset leírás:
@@ -429,7 +429,7 @@ class TestConduit(object):
         assert actual_article_about.text != new_article_data["article_about"]
         assert actual_article_about.text == update_article_data["article_about"]
 
-    @allure.id('TC9')
+    @allure.id('CON_ATC_009')
     @allure.title('Adat vagy adatok törlése (blogbejegyzés)')
     @allure.description('''
     Teszteset leírás:
@@ -509,7 +509,7 @@ class TestConduit(object):
         assert after_delete_number_of_article == TestConduit.article_counter
         assert not new_article_data["article_title"] in after_delete_article_titles
 
-    @allure.id('TC10')
+    @allure.id('CON_ATC_010')
     @allure.title('Adatok lementése felületről (blogbejegyzések)')
     @allure.description('''
     Teszteset leírás:
@@ -604,7 +604,7 @@ class TestConduit(object):
                 for_site_datas = csv.reader(for_site, delimiter=';')
                 assert for_site.read() == from_site.read()
 
-    @allure.id('TC11')
+    @allure.id('CON_ATC_011')
     @allure.title('Adatok listázása (adott felhasználó által létrehozott blogbejegyzések)')
     @allure.description('''
     Teszteset leírás:
@@ -653,7 +653,7 @@ class TestConduit(object):
         assert len(article_author_elements) == start_article_authors_number
         assert len(article_author_elements) == TestConduit.article_counter
 
-    @allure.id('TC12')
+    @allure.id('CON_ATC_012')
     @allure.title('Több oldalas lista bejárása (blogbejegyzések bejárása Home/Global feed oldalon)')
     @allure.description('''
     Teszteset leírás:
