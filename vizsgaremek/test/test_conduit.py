@@ -371,7 +371,7 @@ class TestConduit(object):
             assert article.text in input_article_titles
 
     @allure.id('CON_ATC_008')
-    @allure.title('Meglévő adat módosítás (blogbejegyzés About mező')
+    @allure.title('Meglévő adat módosítás - Blogbejegyzés About mező')
     @allure.description('''
     Teszteset leírás:
     
@@ -430,7 +430,7 @@ class TestConduit(object):
         assert actual_article_about.text == update_article_data["article_about"]
 
     @allure.id('CON_ATC_009')
-    @allure.title('Adat vagy adatok törlése (blogbejegyzés)')
+    @allure.title('Adat vagy adatok törlése - Blogbejegyzés')
     @allure.description('''
     Teszteset leírás:
     
@@ -510,7 +510,7 @@ class TestConduit(object):
         assert not new_article_data["article_title"] in after_delete_article_titles
 
     @allure.id('CON_ATC_010')
-    @allure.title('Adatok lementése felületről (blogbejegyzések)')
+    @allure.title('Adatok lementése felületről - Blogbejegyzések')
     @allure.description('''
     Teszteset leírás:
 
@@ -605,7 +605,7 @@ class TestConduit(object):
                 assert for_site.read() == from_site.read()
 
     @allure.id('CON_ATC_011')
-    @allure.title('Adatok listázása (adott felhasználó által létrehozott blogbejegyzések)')
+    @allure.title('Adatok listázása - Adott felhasználó által létrehozott blogbejegyzések')
     @allure.description('''
     Teszteset leírás:
 
@@ -654,7 +654,7 @@ class TestConduit(object):
         assert len(article_author_elements) == TestConduit.article_counter
 
     @allure.id('CON_ATC_012')
-    @allure.title('Több oldalas lista bejárása (blogbejegyzések bejárása Home/Global feed oldalon)')
+    @allure.title('Több oldalas lista bejárása - Blogbejegyzések bejárása Home/Global feed oldalon')
     @allure.description('''
     Teszteset leírás:
 
